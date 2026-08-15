@@ -1,0 +1,112 @@
+@import 'tailwindcss';
+
+@utility linear-* {
+    background-image: --value(--color-*);
+}
+
+@utility shimmer-* {
+    --c: --value(--color-*);
+    animation: shimmer 2s linear infinite;
+    background-image: linear-gradient(110deg in oklch,var(--c) 45%, oklch(from var(--c) clamp(0.3, calc(l + (0.7 - l) * 0.3), 0.95) calc(c * 0.9) h), var(--c) 55%);
+    background-size: 200% 100%;
+}
+
+@utility pixelated {
+    image-rendering: pixelated;
+}
+
+@utility grid-auto-* {
+    grid-template-columns: repeat(auto-fit, minmax(calc(var(--spacing) * --value(integer)), 1fr));
+}
+
+@font-face {
+    font-family: 'Rubik Variable';
+    src: url('/fonts/rubik.ttf') format('truetype-variations');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik Variable';
+    src: url('/fonts/rubik-italic.ttf') format('truetype-variations');
+    font-weight: 300 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Minecraft';
+    src: url('/fonts/minecraftten.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme {
+    --text-s: 0.7rem;
+    --font-rubik: 'Rubik Variable', sans-serif;
+    --font-minecraft: 'Minecraft', monospace;
+    --animate-enter: enter 300ms var(--ease-emphasized-decelerate) both;
+    --animate-enter-x: enter-x 300ms var(--ease-emphasized-decelerate) both;
+
+    /* Motion - aligné StudioMotion (Compose) */
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ease-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+    --color-zinc-925: #101011;
+
+    /* Rail et pastille du switch */
+    --color-background: #080507;
+    --color-checked-rail: linear-gradient(135deg, #d4d4d8, #ffffff);
+    --color-unchecked-rail: #343434;
+    --color-unchecked-circle: #dfdfdf;
+
+    --color-run-ok: #79c894;
+    --color-run-err: #e0776e;
+
+    @keyframes shimmer {
+        from { background-position: 0 0; }
+        to { background-position: -200% 0; }
+    }
+
+    @keyframes enter {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes enter-x {
+        from { opacity: 0; transform: translateX(-6px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+}
+
+html,
+body {
+    height: 100%;
+}
+
+/* `color-scheme` fait rendre les widgets du navigateur en sombre, `scrollbar-color` descend sur chaque scroller. */
+html {
+    color-scheme: dark;
+    scrollbar-color: var(--color-zinc-700) transparent;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-rubik);
+    color: #e8e8e8;
+    margin: 0;
+    padding: 0;
+    background: #09090b radial-gradient(hsl(0 0% 0% / 1), hsl(243.97deg 41% 0%)) no-repeat fixed;
+    min-height: 100dvh;
+}
+
+hr {
+    flex-shrink: 0;
+    height: 0.0625rem;
+    border: none;
+    opacity: 0.25;
+    width: 100%;
+    background-color: transparent;
+    background-image: linear-gradient(to right, transparent, #ffffff, transparent);
+}
