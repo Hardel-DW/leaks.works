@@ -11,9 +11,9 @@ export function P({ children }: { children: ReactNode }) {
 
 export function H2({ children }: { children: ReactNode }) {
     return (
-        <div className="flex flex-col gap-2 pt-6">
+        <div className="flex flex-col pt-6">
             <h2 className="text-2xl font-semibold text-zinc-100">{children}</h2>
-            <div className="h-px w-full bg-linear-to-r from-transparent via-white to-transparent opacity-25" />
+            <div className="mt-1 h-px w-24 bg-linear-to-r from-white/40 to-transparent" />
         </div>
     );
 }

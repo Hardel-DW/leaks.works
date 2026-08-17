@@ -1,4 +1,5 @@
 import { type ReactNode, useState } from "react";
+import CollapseRegion from "@/components/ui/CollapseRegion";
 import { cn } from "@/lib/utils";
 
 interface CollapsibleProps {
@@ -28,11 +29,9 @@ export default function Collapsible({ title, subtitle, children, defaultOpen = f
                     {subtitle && <span className="text-[11px] font-normal text-zinc-500">{subtitle}</span>}
                 </span>
             </button>
-            <div className={cn("grid transition-[grid-template-rows] duration-300 ease-emphasized-decelerate", open ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
-                <div className="overflow-hidden">
-                    <div className="flex flex-col gap-3 px-4 pb-4 pt-1 text-sm text-zinc-400">{children}</div>
-                </div>
-            </div>
+            <CollapseRegion open={open}>
+                <div className="flex flex-col gap-3 px-4 pb-4 pt-1 text-sm text-zinc-400">{children}</div>
+            </CollapseRegion>
         </div>
     );
 }

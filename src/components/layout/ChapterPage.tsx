@@ -15,7 +15,7 @@ export default function ChapterPage({ children }: { children: ReactNode }) {
             <header className="relative isolate pb-2">
                 <span className="text-xs font-medium uppercase tracking-wide text-zinc-500">{part.title}</span>
                 <h1 className="mt-2 font-minecraft text-3xl text-white sm:text-4xl">{chapter.title}</h1>
-                <div className="mt-2 h-px w-24 mask-[linear-gradient(90deg,black,transparent)]" style={{ backgroundColor: part.tint }} />
+                <div className="mt-2 h-px w-24 bg-linear-to-r from-amber-500 to-transparent" />
                 <p className="mt-4 text-[15px] leading-relaxed text-zinc-400">{chapter.summary}</p>
             </header>
 

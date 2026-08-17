@@ -23,9 +23,9 @@ const LEVELS = {
         detail: "Le quadrillage que Leafs pose par dessus. Une section regroupe 256 chunks. C'est la maille avec laquelle le mod raisonne, jamais le chunk seul."
     },
     region: {
-        label: "Région",
+        label: "Region",
         cells: 5,
-        headline: "les sections voisines, groupées",
+        headline: "les sections voisines, groupees",
         detail: "Les sections où il se passe quelque chose se regroupent en région, avec une marge de sections vides autour. Une région, c'est une tâche que le serveur peut tiquer sur son propre thread."
     }
 } as const;

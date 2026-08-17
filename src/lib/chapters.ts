@@ -18,9 +18,9 @@ export const PARTS: ChapterPart[] = [
         intent: "Le problème que Leafs résout, et la géométrie qui rend la solution possible.",
         tint: "#38bdf8",
         chapters: [
-            { path: "/problem", title: "Le problème", summary: "Pourquoi un serveur Minecraft n'utilise qu'un seul cœur, et ce que ça coûte.", icon: "/icons/warning.svg" },
+            { path: "/problem", title: "Le probleme", summary: "Pourquoi un serveur Minecraft n'utilise qu'un seul cœur, et ce que ça coûte.", icon: "/icons/warning.svg" },
             { path: "/world-grid", title: "Le monde en grille", summary: "Blocs, chunks, sections. La grille sur laquelle tout le reste est construit.", icon: "/icons/block.svg" },
-            { path: "/regions", title: "Les régions", summary: "Le découpage vivant du monde. Déplace des joueurs et regarde les régions naître, fusionner et se scinder.", icon: "/icons/globe.svg" }
+            { path: "/regions", title: "Les regions", summary: "Le découpage vivant du monde. Déplace des joueurs et regarde les régions naître, fusionner et se scinder.", icon: "/icons/globe.svg" }
         ]
     },
     {
@@ -29,8 +29,8 @@ export const PARTS: ChapterPart[] = [
         tint: "#8b5cf6",
         chapters: [
             { path: "/threads", title: "Les threads", summary: "Les quatre familles de threads et le verrou qui les sépare par dimension.", icon: "/icons/session.svg" },
-            { path: "/region-tick", title: "Le tick de région", summary: "Les phases qu'une région joue chaque tick, dans l'ordre exact de vanilla.", icon: "/icons/reload.svg" },
-            { path: "/barrier", title: "Le thread global et la barrière", summary: "Ce qui reste global, et la fenêtre qui met tout le monde en pause quand il le faut.", icon: "/icons/lock.svg" },
+            { path: "/region-tick", title: "Le tick de region", summary: "Les phases qu'une région joue chaque tick, dans l'ordre exact de vanilla.", icon: "/icons/reload.svg" },
+            { path: "/barrier", title: "Le thread global et la barriere", summary: "Ce qui reste global, et la fenêtre qui met tout le monde en pause quand il le faut.", icon: "/icons/lock.svg" },
             { path: "/clocks", title: "Les deux horloges", summary: "Le temps du jeu et le temps de région, et pourquoi un four a besoin des deux.", icon: "/icons/pending.svg" }
         ]
     },
@@ -40,11 +40,11 @@ export const PARTS: ChapterPart[] = [
         tint: "#79c894",
         chapters: [
             { path: "/tickets", title: "Les tickets et les chunks", summary: "Comment un chunk se charge, reste chargé, puis part. Niveaux 41, 33 et 31.", icon: "/icons/packs.svg" },
-            { path: "/worldgen", title: "La génération parallèle", summary: "Plusieurs chunks générés en même temps, sans que deux voisins s'écrivent dessus.", icon: "/icons/jigsaw.svg" },
+            { path: "/worldgen", title: "La generation parallele", summary: "Plusieurs chunks générés en même temps, sans que deux voisins s'écrivent dessus.", icon: "/icons/jigsaw.svg" },
             { path: "/network", title: "Le réseau et les joueurs", summary: "Une file de paquets par joueur, drainée par la région qui le possède.", icon: "/icons/navigation.svg" },
-            { path: "/teleports", title: "Téléportations et portails", summary: "Ce qui se passe quand une entité sort de sa région ou change de dimension.", icon: "/icons/locate.svg" },
+            { path: "/teleports", title: "Teleportations et portails", summary: "Ce qui se passe quand une entité sort de sa région ou change de dimension.", icon: "/icons/locate.svg" },
             { path: "/commands", title: "Commandes et command blocks", summary: "Où s'exécute une commande, et les deux gamerules qui coupent le coût.", icon: "/icons/terminal.svg" },
-            { path: "/shared-state", title: "Les données partagées", summary: "Scoreboard, cartes, points d'intérêt. Ce que plusieurs régions touchent en même temps.", icon: "/icons/registries.svg" }
+            { path: "/shared-state", title: "Les donnees partagees", summary: "Scoreboard, cartes, points d'intérêt. Ce que plusieurs régions touchent en même temps.", icon: "/icons/registries.svg" }
         ]
     },
     {
