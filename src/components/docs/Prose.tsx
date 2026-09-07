@@ -1,44 +1,104 @@
-import type { ReactNode } from "react";
+import RegionGrid from "@/components/demo/RegionGrid";
+import ThreadTimeline from "@/components/demo/ThreadTimeline";
+import WorkerPool from "@/components/demo/WorkerPool";
+import Inline from "@/components/docs/Inline";
+import { type Block, type DemoId, slugify } from "@/content/docs/types";
 import { cn } from "@/lib/utils";
 
-export function Lead({ children }: { children: ReactNode }) {
-    return <p className="text-lg leading-relaxed text-zinc-300">{children}</p>;
+function Demo({ id }: { id: DemoId }) {
+    if (id === "regions") return <RegionGrid className="my-8" />;
+    if (id === "clocks") return <ThreadTimeline className="my-8" />;
+    return <WorkerPool className="my-8" />;
 }
 
-export function P({ children }: { children: ReactNode }) {
-    return <p className="leading-relaxed text-zinc-400">{children}</p>;
-}
-
-export function H2({ children }: { children: ReactNode }) {
+function Code({ code, title }: { code: string; title?: string }) {
     return (
-        <div className="flex flex-col pt-6">
-            <h2 className="text-2xl font-semibold text-zinc-100">{children}</h2>
-            <div className="mt-1 h-px w-24 bg-linear-to-r from-white/40 to-transparent" />
+        <div className="island overflow-hidden">
+            {title && <div className="border-b border-line px-4 py-2 font-mono text-xs text-cream-500">{title}</div>}
+            <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-cream-200">{code}</pre>
         </div>
     );
 }
 
-export function H3({ children }: { children: ReactNode }) {
-    return <h3 className="pt-2 text-[15px] font-semibold text-zinc-200">{children}</h3>;
-}
-
-export function Bullets({ children }: { children: ReactNode }) {
-    return <ul className="flex flex-col gap-2 pl-1">{children}</ul>;
-}
-
-export function Bullet({ children }: { children: ReactNode }) {
+function Note({ text, tone }: { text: string; tone?: "info" | "warn" }) {
     return (
-        <li className="flex gap-3 leading-relaxed text-zinc-400">
-            <span className="mt-2.25 size-1 shrink-0 rounded-full bg-zinc-600" />
-            <span className="min-w-0">{children}</span>
-        </li>
+        <div className={cn("island border-l-2 px-5 py-4 text-[15px] leading-relaxed", tone === "warn" ? "border-l-honey-400" : "border-l-leaf-500")}>
+            <Inline text={text} />
+        </div>
     );
 }
 
-export function Code({ children, className }: { children: ReactNode; className?: string }) {
-    return <code className={cn("rounded-[5px] border border-zinc-800 bg-zinc-900 px-1.5 py-0.5 font-mono text-[0.82em] text-zinc-300", className)}>{children}</code>;
+function Table({ head, rows }: { head: string[]; rows: string[][] }) {
+    return (
+        <div className="island overflow-x-auto">
+            <table>
+                <thead>
+                    <tr>
+                        {head.map((cell) => (
+                            <th key={cell}>{cell}</th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {rows.map((row) => (
+                        <tr key={row[0]}>
+                            {row.map((cell, column) => (
+                                <td key={head[column]}>
+                                    <Inline text={cell} />
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
-export function Strong({ children }: { children: ReactNode }) {
-    return <strong className="font-semibold text-zinc-200">{children}</strong>;
+function BlockView({ block }: { block: Block }) {
+    if ("h2" in block) return <h2 id={slugify(block.h2)}>{block.h2}</h2>;
+    if ("h3" in block) return <h3 id={slugify(block.h3)}>{block.h3}</h3>;
+    if ("p" in block) {
+        return (
+            <p>
+                <Inline text={block.p} />
+            </p>
+        );
+    }
+    if ("ul" in block) {
+        return (
+            <ul>
+                {block.ul.map((item) => (
+                    <li key={item}>
+                        <Inline text={item} />
+                    </li>
+                ))}
+            </ul>
+        );
+    }
+    if ("ol" in block) {
+        return (
+            <ol>
+                {block.ol.map((item) => (
+                    <li key={item}>
+                        <Inline text={item} />
+                    </li>
+                ))}
+            </ol>
+        );
+    }
+    if ("note" in block) return <Note text={block.note} tone={block.tone} />;
+    if ("code" in block) return <Code code={block.code} title={block.title} />;
+    if ("table" in block) return <Table head={block.table.head} rows={block.table.rows} />;
+    return <Demo id={block.demo} />;
+}
+
+export default function Prose({ blocks }: { blocks: Block[] }) {
+    return (
+        <div className="prose">
+            {blocks.map((block) => (
+                <BlockView key={JSON.stringify(block)} block={block} />
+            ))}
+        </div>
+    );
 }

@@ -5,6 +5,5 @@ import "./globals.css";
 
 const rootElement = document.getElementById("root");
 if (rootElement && !rootElement.innerHTML) {
-    const root = ReactDOM.createRoot(rootElement);
-    root.render(<RouterView fallback={NotFound} />);
+    ReactDOM.createRoot(rootElement).render(<RouterView fallback={NotFound} />);
 }

@@ -1,51 +1,98 @@
+import type { CSSProperties } from "react";
+import RegionGrid from "@/components/demo/RegionGrid";
+import ThreadTimeline from "@/components/demo/ThreadTimeline";
+import WorkerPool from "@/components/demo/WorkerPool";
+import HeroMark from "@/components/home/HeroMark";
+import WindLeaves from "@/components/home/WindLeaves";
+import Button from "@/components/ui/Button";
 import Icon from "@/components/ui/Icon";
-import { PARTS } from "@/lib/chapters";
-import { Link } from "@/lib/router";
+import { useText } from "@/lib/i18n";
+import { LINKS } from "@/lib/links";
 
-export default function HomePage() {
+const delay = (ms: number) => ({ "--delay": `${ms}ms` }) as CSSProperties;
+
+export default function Home() {
+    const text = useText();
     return (
-        <div className="flex flex-col gap-12">
-            <header className="relative isolate flex flex-col gap-5 pb-4">
-                <div aria-hidden className="pointer-events-none absolute -top-32 left-1/2 -z-10 h-72 w-[130%] -translate-x-1/2 rounded-[100%] bg-amber-700/12 blur-[95px]" />
-                <span className="text-xs font-medium uppercase tracking-wide text-zinc-500">Mod Fabric, côté serveur, Minecraft 26.2</span>
-                <h1 className="font-minecraft text-4xl leading-tight text-white sm:text-5xl">Comment marche Leafs</h1>
-                <p className="max-w-2xl text-lg leading-relaxed text-zinc-300">
-                    Un serveur Minecraft classique fait tout sur un seul fil d'exécution. Une seule tâche à la fois, un seul cœur du processeur qui travaille. Leafs découpe le monde en régions
-                    indépendantes et donne à chacune son propre tick, sur son propre thread.
-                </p>
-                <p className="max-w-2xl leading-relaxed text-zinc-400">
-                    Ce site explique le modèle pas à pas. Chaque chapitre commence par l'idée simple, avec un visuel que tu peux manipuler, puis descend jusqu'aux classes du dépôt. Aucune connaissance
-                    de Java n'est nécessaire pour la première moitié.
-                </p>
-            </header>
+        <div className="relative">
+            <WindLeaves />
+            <div className="frame">
+                <section className="row grid gap-10 px-6 py-20 md:grid-cols-[1.15fr_1fr] md:items-center md:py-28 lg:px-12">
+                    <div className="flex flex-col items-start gap-6">
+                        <p className="label rise" style={delay(0)}>
+                            {text.hero.eyebrow}
+                        </p>
+                        <h1 className="rise text-balance text-5xl font-bold leading-[1.02] tracking-display text-cream-50 sm:text-6xl lg:text-7xl" style={delay(80)}>
+                            {text.hero.title}
+                        </h1>
+                        <p className="rise max-w-md text-pretty text-lg leading-relaxed text-cream-400" style={delay(160)}>
+                            {text.hero.subtitle}
+                        </p>
+                        <div className="rise flex flex-wrap gap-3 pt-2" style={delay(240)}>
+                            <Button variant="primary" href={LINKS.modrinth}>
+                                <Icon name="modrinth" className="size-4" />
+                                {text.hero.primary}
+                            </Button>
+                            <Button to="/docs">
+                                {text.hero.secondary}
+                                <Icon name="arrowRight" className="size-4" />
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="rise flex justify-center md:justify-end" style={delay(200)}>
+                        <HeroMark />
+                    </div>
+                </section>
 
-            <div className="flex flex-col gap-10">
-                {PARTS.map((part) => (
-                    <section key={part.title} className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-2">
-                            <div className="flex items-center gap-3">
-                                <span className="size-2 rounded-full" style={{ backgroundColor: part.tint }} />
-                                <h2 className="text-xl font-semibold text-zinc-100">{part.title}</h2>
-                            </div>
-                            <p className="text-[13px] text-zinc-500">{part.intent}</p>
+                <section className="row px-6 py-16 lg:px-12">
+                    <Heading title={text.regions.title} text={text.regions.text} />
+                    <RegionGrid className="reveal mt-10" />
+                </section>
+
+                <section className="row cells md:grid-cols-[1fr_1.4fr]">
+                    <div className="flex flex-col justify-center px-6 py-14 lg:px-12">
+                        <Heading title={text.clocks.title} text={text.clocks.text} />
+                    </div>
+                    <div className="px-6 py-10 lg:px-10">
+                        <ThreadTimeline className="reveal" />
+                    </div>
+                </section>
+
+                <section className="row cells md:grid-cols-[1.4fr_1fr]">
+                    <div className="px-6 py-10 lg:px-10">
+                        <WorkerPool className="reveal" />
+                    </div>
+                    <div className="flex flex-col justify-center px-6 py-14 lg:px-12">
+                        <Heading title={text.pool.title} text={text.pool.text} />
+                    </div>
+                </section>
+
+                <section className="row cells md:grid-cols-3">
+                    {text.pillars.map((pillar) => (
+                        <div key={pillar.title} className="flex flex-col gap-3 px-6 py-12 lg:px-10">
+                            <h3 className="text-lg font-semibold tracking-tight text-cream-50">{pillar.title}</h3>
+                            <p className="text-pretty text-cream-400">{pillar.text}</p>
                         </div>
-                        <div className="grid gap-2.5 sm:grid-cols-2">
-                            {part.chapters.map((chapter) => (
-                                <Link
-                                    key={chapter.path}
-                                    to={chapter.path}
-                                    className="group flex flex-col gap-2 rounded-xl border border-zinc-900 bg-zinc-925 px-4 py-3.5 transition-colors duration-150 ease-standard hover:border-zinc-800 hover:bg-zinc-925">
-                                    <span className="flex items-center gap-2.5">
-                                        <Icon src={chapter.icon} className="size-3.5 text-zinc-600 transition-colors group-hover:text-zinc-400" />
-                                        <span className="text-[14px] font-medium text-zinc-200 transition-colors group-hover:text-white">{chapter.title}</span>
-                                    </span>
-                                    <span className="text-[12.5px] leading-relaxed text-zinc-500">{chapter.summary}</span>
-                                </Link>
-                            ))}
-                        </div>
-                    </section>
-                ))}
+                    ))}
+                </section>
+
+                <section className="row flex flex-col items-start gap-5 px-6 py-20 lg:px-12">
+                    <Heading title={text.cta.title} text={text.cta.text} />
+                    <Button variant="primary" to="/docs">
+                        {text.cta.button}
+                        <Icon name="arrowRight" className="size-4" />
+                    </Button>
+                </section>
             </div>
+        </div>
+    );
+}
+
+function Heading({ title, text }: { title: string; text: string }) {
+    return (
+        <div className="flex max-w-xl flex-col gap-3">
+            <h2 className="text-balance text-3xl font-bold tracking-display text-cream-50 sm:text-4xl">{title}</h2>
+            <p className="text-pretty text-lg leading-relaxed text-cream-400">{text}</p>
         </div>
     );
 }

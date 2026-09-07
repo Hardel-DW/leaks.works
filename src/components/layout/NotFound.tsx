@@ -1,13 +1,15 @@
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/Button";
+import Leaf from "@/components/ui/Leaf";
+import { useText } from "@/lib/i18n";
 
 export default function NotFound() {
+    const text = useText();
     return (
-        <div className="flex flex-col items-start gap-6 py-16">
-            <h1 className="font-minecraft text-4xl text-white">Page introuvable</h1>
-            <p className="text-zinc-400">Ce chapitre n'existe pas. Reviens à l'accueil, la table des matières y est complète.</p>
-            <Button to="/" variant="ghost_border" size="sm">
-                Retour à l'accueil
-            </Button>
+        <div className="frame flex min-h-[60dvh] flex-col items-center justify-center gap-4 px-6 py-24 text-center">
+            <Leaf className="size-12 text-cream-700" />
+            <h1 className="text-3xl font-bold tracking-display text-cream-50">{text.notFound.title}</h1>
+            <p className="max-w-md text-cream-500">{text.notFound.text}</p>
+            <Button to="/">{text.notFound.back}</Button>
         </div>
     );
 }

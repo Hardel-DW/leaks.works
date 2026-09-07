@@ -1,18 +1,47 @@
 import { cn } from "@/lib/utils";
 
-interface IconProps {
-    src: string;
-    size?: number;
-    className?: string;
-}
+type Glyph = { d: string; filled?: true };
 
-/** Monochrome SVG icon tinted by `currentColor` via CSS mask - the web equivalent of Compose's `SvgIcon(tint = …)`. */
-export default function Icon({ src, size, className }: IconProps) {
+const ICONS = {
+    plus: { d: "M12 5v14M5 12h14" },
+    minus: { d: "M5 12h14" },
+    arrowRight: { d: "M5 12h14m-6-6 6 6-6 6" },
+    arrowLeft: { d: "M19 12H5m6 6-6-6 6-6" },
+    chevronDown: { d: "m6 9 6 6 6-6" },
+    external: { d: "M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" },
+    menu: { d: "M4 7h16M4 12h16M4 17h16" },
+    close: { d: "M6 6l12 12M18 6 6 18" },
+    play: { d: "M7 5v14l12-7Z" },
+    pause: { d: "M8 5v14M16 5v14" },
+    reset: { d: "M4 12a8 8 0 1 0 2.3-5.7M4 4v5h5" },
+    download: { d: "M12 4v11m-5-5 5 5 5-5M5 20h14" },
+    github: {
+        filled: true,
+        d: "M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"
+    },
+    discord: {
+        filled: true,
+        d: "M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.1.1 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.1 16.1 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02M8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12m6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12"
+    },
+    x: { filled: true, d: "M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.1 18.2h1.7L7.3 3.7H5.5l12.3 16.5Z" },
+    bluesky: {
+        filled: true,
+        d: "M5.2 3.6C7.9 5.6 10.8 9.7 12 11.9c1.2-2.2 4.1-6.3 6.8-8.3C20.7 2.1 24 1 24 4.6c0 .7-.4 6-.7 6.9-.9 3-4.1 3.8-6.9 3.3 5 .8 6.2 3.6 3.5 6.4-5.2 5.2-7.5-1.3-7.9-3-.1-.3-.1-.4 0-.3 0-.1 0 0 0 .3-.4 1.7-2.7 8.2-7.9 3-2.7-2.8-1.5-5.6 3.5-6.4-2.8.5-6-.3-6.9-3.3C.4 10.6 0 5.3 0 4.6 0 1 3.3 2.1 5.2 3.6Z"
+    },
+    modrinth: {
+        filled: true,
+        d: "M12.3 1A11 11 0 0 0 1 12a11 11 0 0 0 1 4.5l2.1-.9A8.8 8.8 0 0 1 3.3 12a8.7 8.7 0 0 1 9-8.7 8.7 8.7 0 0 1 8.4 7.3l2.2-.6A11 11 0 0 0 12.3 1Zm4.6 10.1-.9 2.3-2.1.9-.6 2.2 1.8 1.8 2.8-.8 3.6-3.6a11 11 0 0 1-9.5 9.1 11 11 0 0 1-9.1-4.3l1.9-1.1a8.7 8.7 0 0 0 5 2.9l-.5-2.6 2.1-2.1-1.2-3.1L8 10.9l.4-2.4 2.1-1.2 2.6.5 1.1 1.6 2.7 1.7Z"
+    }
+} as const satisfies Record<string, Glyph>;
+
+export type IconName = keyof typeof ICONS;
+
+export default function Icon({ name, className }: { name: IconName; className?: string }) {
+    const glyph: Glyph = ICONS[name];
+    const stroke = glyph.filled ? {} : { fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
     return (
-        <span
-            aria-hidden="true"
-            style={{ maskImage: `url(${src})`, width: size, height: size }}
-            className={cn("inline-block shrink-0 bg-current mask-center mask-no-repeat mask-contain", className)}
-        />
+        <svg viewBox="0 0 24 24" fill="currentColor" {...stroke} className={cn("size-4 shrink-0", className)} aria-hidden>
+            <path d={glyph.d} />
+        </svg>
     );
 }

@@ -2,12 +2,14 @@ import React, { createContext, useContext, useSyncExternalStore } from "react";
 
 type LocationState = { pathname: string };
 type RouteModule = { default: React.ComponentType };
-type RouteEntry = { path: string; component: React.ComponentType };
+type RouteEntry = { segments: string[]; component: React.ComponentType };
+type Params = Record<string, string>;
 
 const NAVIGATE_EVENT = "leafs:navigate";
 const OutletContext = createContext<React.ReactNode>(null);
+const ParamsContext = createContext<Params>({});
 
-const readLocation = (): LocationState => ({ pathname: window.location.pathname });
+const readLocation = (): LocationState => ({ pathname: window.location.pathname.replace(/\/+$/, "") || "/" });
 
 let currentLocation = readLocation();
 
@@ -24,16 +26,18 @@ const subscribe = (callback: () => void) => {
     };
 };
 
-const navigateTo = ({ to }: { to: string }) => {
+export const navigate = (to: string) => {
     if (to !== window.location.pathname) {
         window.history.pushState(null, "", to);
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0, behavior: "instant" });
     }
     currentLocation = readLocation();
     window.dispatchEvent(new Event(NAVIGATE_EVENT));
 };
 
 export const Outlet = () => <>{useContext(OutletContext)}</>;
+
+export const useParams = () => useContext(ParamsContext);
 
 export const Link = ({ to, children, onClick, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { to: string }) => (
     <a
@@ -43,7 +47,7 @@ export const Link = ({ to, children, onClick, ...props }: React.AnchorHTMLAttrib
             onClick?.(event);
             if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
             event.preventDefault();
-            navigateTo({ to });
+            navigate(to);
         }}>
         {children}
     </a>
@@ -57,38 +61,51 @@ export function useLocation(): LocationState {
     );
 }
 
-/** Navigation impérative, pour les appelants qui ne sont pas des composants. */
-export const navigate = navigateTo;
-
 const ROUTES_DIR = "/src/routes";
 
 const modules = import.meta.glob<RouteModule>("/src/routes/**/*.tsx", { eager: true });
 
-/** `routes/index.tsx` sert la racine, les autres fichiers portent leur propre chemin. */
-const toPath = (file: string) => {
-    const path = file.slice(ROUTES_DIR.length, -".tsx".length);
-    return path === "/index" ? "/" : path;
-};
+const toSegments = (file: string) =>
+    file
+        .slice(ROUTES_DIR.length + 1, -".tsx".length)
+        .split("/")
+        .filter((segment) => segment !== "index");
 
-const entries: RouteEntry[] = Object.entries(modules).map(([file, module]) => ({ path: toPath(file), component: module.default }));
+const entries: RouteEntry[] = Object.entries(modules).map(([file, module]) => ({ segments: toSegments(file), component: module.default }));
 
-const rootRoute = entries.find((entry) => entry.path === "/__root");
+const rootRoute = entries.find((entry) => entry.segments[0] === "__root");
 const pages = entries.filter((entry) => entry !== rootRoute);
 
-const memoizedShells = new WeakMap<React.ComponentType, React.ComponentType>();
-const asStableShell = (component: React.ComponentType): React.ComponentType => {
-    let cached = memoizedShells.get(component);
-    if (!cached) {
-        cached = React.memo(component);
-        memoizedShells.set(component, cached);
+function match(route: RouteEntry, path: string[]): Params | null {
+    if (route.segments.length !== path.length) return null;
+    const params: Params = {};
+    for (const [index, segment] of route.segments.entries()) {
+        if (segment.startsWith("$")) params[segment.slice(1)] = decodeURIComponent(path[index]);
+        else if (segment !== path[index]) return null;
     }
-    return cached;
-};
+    return params;
+}
+
+function resolve(pathname: string): { component: React.ComponentType; params: Params } | null {
+    const path = pathname.split("/").filter(Boolean);
+    for (const route of pages) {
+        const params = match(route, path);
+        if (params) return { component: route.component, params };
+    }
+    return null;
+}
+
+const Root = rootRoute ? React.memo(rootRoute.component) : React.Fragment;
 
 export function RouterView({ fallback: Fallback }: { fallback: React.ComponentType }) {
     const { pathname } = useLocation();
-    const page = pages.find((route) => route.path === pathname);
-    const Root = rootRoute ? asStableShell(rootRoute.component) : React.Fragment;
-    const content = page ? <page.component /> : <Fallback />;
-    return <OutletContext value={content}>{<Root />}</OutletContext>;
+    const resolved = resolve(pathname);
+    const content = resolved ? <resolved.component /> : <Fallback />;
+    return (
+        <ParamsContext value={resolved?.params ?? {}}>
+            <OutletContext value={content}>
+                <Root />
+            </OutletContext>
+        </ParamsContext>
+    );
 }

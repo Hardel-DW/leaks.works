@@ -2,56 +2,41 @@ import type React from "react";
 import { Link } from "@/lib/router";
 import { cn } from "@/lib/utils";
 
-const variants = {
-    variant: {
-        default: "bg-zinc-200 text-zinc-800 border-2 border-zinc-500 hover:bg-zinc-300",
-        black: "bg-black text-zinc-200 border-2 border-zinc-500 hover:bg-zinc-900",
-        ghost_border: "rounded-lg bg-zinc-900 text-zinc-300 outline outline-zinc-700 hover:text-zinc-100 hover:bg-zinc-800",
-        link: "bg-transparent hover:text-white text-zinc-400",
-        shimmer: "shimmer-white text-zinc-900 font-medium border-t border-l border-zinc-900 hover:opacity-75 transition",
-        patreon: "shimmer-orange-700 text-white hover:scale-95 transition place-self-end rounded-xl"
-    },
-    size: {
-        default: "h-10 px-4",
-        sm: "h-9 px-3",
-        lg: "h-10 px-8"
-    }
+const VARIANTS = {
+    primary: "glow-border bg-leaf-400 text-bark-950 hover:bg-leaf-300",
+    secondary: "border border-line bg-bark-900 text-cream-50 hover:border-bark-600 hover:bg-bark-800",
+    ghost: "text-cream-400 hover:bg-bark-800 hover:text-cream-50",
+    icon: "size-9 px-0 text-cream-500 hover:bg-bark-800 hover:text-cream-50"
 } as const;
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: keyof typeof variants.variant;
-    size?: keyof typeof variants.size;
+    variant?: keyof typeof VARIANTS;
     href?: string;
     to?: string;
-    target?: string;
 }
 
-export function Button({ variant = "default", size = "default", className, href, to, target, children, ...rest }: ButtonProps) {
-    const baseClassName = cn([
-        "rounded-xl inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer truncate text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-        variants.variant[variant],
-        variants.size[size],
+export default function Button({ variant = "secondary", className, href, to, children, ...rest }: ButtonProps) {
+    const classes = cn(
+        "inline-flex h-10 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-xs px-4 text-sm font-semibold transition-colors duration-150 ease-soft disabled:pointer-events-none disabled:opacity-40",
+        VARIANTS[variant],
         className
-    ]);
-
+    );
     if (to) {
         return (
-            <Link to={to} className={baseClassName}>
+            <Link to={to} className={classes}>
                 {children}
             </Link>
         );
     }
-
     if (href) {
         return (
-            <a href={href} target={target} className={baseClassName} {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}>
+            <a href={href} target="_blank" rel="noreferrer" className={classes}>
                 {children}
             </a>
         );
     }
-
     return (
-        <button type="button" className={baseClassName} {...rest}>
+        <button type="button" className={classes} {...rest}>
             {children}
         </button>
     );
