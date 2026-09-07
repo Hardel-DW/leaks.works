@@ -7,11 +7,18 @@ export const fr = {
         language: "Langue"
     },
     hero: {
-        eyebrow: "Fabric · Minecraft 26.2 · serveur",
-        title: "Minecraft, en parallèle.",
-        subtitle: "Leafs découpe le monde en régions indépendantes. Chaque région vit son propre tick, sur son propre thread. Rien d'autre ne change.",
+        eyebrow: "Fabric · 26.2 · serveur",
+        title: "Plus de coeurs, plus de joueurs.",
+        subtitle: "Leafs fait tourner le monde en parallèle. Chaque coeur ajoute des joueurs, sur Fabric, avec vos mods et vos datapacks.",
         primary: "Télécharger sur Modrinth",
         secondary: "Lire la doc"
+    },
+    scale: {
+        context: "24 threads · 32 Go",
+        unit: "joueurs simultanés",
+        rows: { vanilla: "En Vanilla", paper: "Paper", leafs: "Leafs sur Fabric" },
+        note: "Mesuré sur un serveur de test.",
+        joined: "a rejoint la partie"
     },
     regions: {
         title: "Des régions autour des joueurs",

@@ -1,8 +1,12 @@
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import { cn } from "@/lib/utils";
 
-export default function DemoFrame({ className, children }: { className?: string; children: ReactNode }) {
-    return <div className={cn("island flex flex-col overflow-hidden", className)}>{children}</div>;
+export default function DemoFrame({ ref, className, children }: { ref?: Ref<HTMLDivElement>; className?: string; children: ReactNode }) {
+    return (
+        <div ref={ref} className={cn("island flex flex-col overflow-hidden", className)}>
+            {children}
+        </div>
+    );
 }
 
 export function DemoBar({ children }: { children: ReactNode }) {

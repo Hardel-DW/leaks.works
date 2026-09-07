@@ -1,6 +1,7 @@
 import { useState } from "react";
 import DemoFrame, { DemoBar, DemoStat, Stepper } from "@/components/demo/DemoFrame";
 import { useTicker } from "@/lib/hook/useTicker";
+import { useVisible } from "@/lib/hook/useVisible";
 import { useText } from "@/lib/i18n";
 import { BUDGET, isLate, MAX_REGIONS, MAX_WORKERS, type Placement, RANGE, randomTasks, schedule, type Task } from "@/lib/sim/pool";
 import { cn } from "@/lib/utils";
@@ -40,7 +41,8 @@ export default function WorkerPool({ className }: { className?: string }) {
     const text = useText();
     const [pool, setPool] = useState<Pool>({ workers: 12, tasks: randomTasks(40), step: 0 });
 
-    useTicker(true, STEP_MS, () => setPool(advance));
+    const [visible, frame] = useVisible();
+    useTicker(visible, STEP_MS, () => setPool(advance));
 
     const placements = schedule(pool.tasks, pool.workers);
     const late = placements.filter((placement) => placement.id < pool.step && isLate(placement)).length;
@@ -48,7 +50,7 @@ export default function WorkerPool({ className }: { className?: string }) {
     const workers = Array.from({ length: pool.workers }, (_, index) => index + 1);
 
     return (
-        <DemoFrame className={className}>
+        <DemoFrame ref={frame} className={className}>
             <DemoBar>
                 <Stepper label={text.pool.threads} value={pool.workers} min={1} max={MAX_WORKERS} onChange={(workers) => setPool((state) => ({ ...state, workers, step: 0 }))} />
                 <Stepper label={text.pool.regions} value={pool.tasks.length} min={1} max={MAX_REGIONS} onChange={(count) => setPool((state) => ({ ...state, tasks: randomTasks(count), step: 0 }))} />

@@ -2,7 +2,8 @@ import type { CSSProperties } from "react";
 import RegionGrid from "@/components/demo/RegionGrid";
 import ThreadClocks from "@/components/demo/ThreadClocks";
 import WorkerPool from "@/components/demo/WorkerPool";
-import HeroMark from "@/components/home/HeroMark";
+import RegionBackdrop from "@/components/home/RegionBackdrop";
+import ScaleCard from "@/components/home/ScaleCard";
 import Button from "@/components/ui/Button";
 import Icon from "@/components/ui/Icon";
 import { useText } from "@/lib/i18n";
@@ -15,12 +16,14 @@ export default function Home() {
     return (
         <div className="hatched">
             <div className="frame bg-bark-950">
-                <section className="row grid gap-10 px-6 py-20 md:grid-cols-[1.15fr_1fr] md:items-center md:py-28 lg:px-12">
-                    <div className="flex flex-col items-start gap-6">
-                        <p className="label rise" style={delay(0)}>
-                            {text.hero.eyebrow}
+                <section className="row grid min-h-[90dvh] gap-12 overflow-hidden px-6 py-20 md:grid-cols-[45fr_55fr] md:items-center lg:gap-16 lg:px-12">
+                    <RegionBackdrop />
+                    <div className="relative flex flex-col items-start gap-6">
+                        <p className="label rise flex items-center gap-3 px-4 py-2 island " style={delay(0)}>
+                            <img src="/Fabric.png" alt="Fabric MC" width={24} height={24} className="size-6 pixelated" />
+                            <div className="text-cream-400">{text.hero.eyebrow}</div>
                         </p>
-                        <h1 className="rise text-balance text-5xl font-bold leading-[1.02] tracking-display text-cream-50 sm:text-6xl lg:text-7xl" style={delay(80)}>
+                        <h1 className="rise font-game-title text-balance leading-[1.05] text-cream-50 text-4xl sm:text-5xl lg:text-6xl" style={delay(80)}>
                             {text.hero.title}
                         </h1>
                         <p className="rise max-w-md text-pretty text-lg leading-relaxed text-cream-400" style={delay(160)}>
@@ -37,8 +40,8 @@ export default function Home() {
                             </Button>
                         </div>
                     </div>
-                    <div className="rise flex justify-center md:justify-end" style={delay(200)}>
-                        <HeroMark />
+                    <div className="rise relative flex justify-center md:justify-end" style={delay(200)}>
+                        <ScaleCard />
                     </div>
                 </section>
 

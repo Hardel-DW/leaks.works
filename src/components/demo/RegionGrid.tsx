@@ -2,6 +2,7 @@ import type React from "react";
 import { useId, useRef, useState } from "react";
 import DemoFrame, { DemoBar, DemoStat } from "@/components/demo/DemoFrame";
 import { useTicker } from "@/lib/hook/useTicker";
+import { useVisible } from "@/lib/hook/useVisible";
 import { useText } from "@/lib/i18n";
 import { advanceLoading, computeRegions, fromKey, GRID, type Loaded, outline, ownedChunks, type Player, type Regions, regionOfPlayer, SECTION, simulatedChunks, spawnPlayer } from "@/lib/sim/regions";
 import { cn } from "@/lib/utils";
@@ -74,7 +75,8 @@ export default function RegionGrid({ className }: { className?: string }) {
     const [sim, setSim] = useState<Sim>(initial);
     const dragging = useRef<number | null>(null);
 
-    useTicker(true, 110, () => setSim((state) => ({ ...state, tick: state.tick + 1, loaded: advanceLoading(state.loaded, state.players, state.tick + 1) })));
+    const [visible, frame] = useVisible();
+    useTicker(visible, 110, () => setSim((state) => ({ ...state, tick: state.tick + 1, loaded: advanceLoading(state.loaded, state.players, state.tick + 1) })));
 
     const simulated = simulatedChunks(sim.loaded, sim.players);
     const regions = computeRegions(simulated, sim.players);
@@ -98,7 +100,7 @@ export default function RegionGrid({ className }: { className?: string }) {
     const removePlayer = () => setSim((state) => ({ ...state, players: state.players.slice(0, -1) }));
 
     return (
-        <DemoFrame className={className}>
+        <DemoFrame ref={frame} className={className}>
             <DemoBar>
                 <div className="flex items-center gap-1">
                     <button

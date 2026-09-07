@@ -41,10 +41,10 @@ export default function Header() {
     const text = useText();
     return (
         <header className="sticky top-0 z-50 border-b border-line bg-bark-950/80 backdrop-blur-md">
-            <div className="frame flex h-14 items-center gap-2 px-4 sm:px-6">
+            <div className="frame flex h-14 items-center gap-4 px-4 sm:px-6">
                 <Link to="/" className="mr-2 flex items-center gap-2 text-cream-50">
                     <Leaf className="size-6 text-leaf-400" />
-                    <span className="text-[17px] font-bold tracking-tight">Leafs</span>
+                    <span className="text-[17px] -translate-y-0.5 font-game-title">LEAFS</span>
                 </Link>
                 <nav className="hidden items-center sm:flex">
                     <NavLink to="/docs">{text.nav.docs}</NavLink>

@@ -9,11 +9,18 @@ export const en: Text = {
         language: "Language"
     },
     hero: {
-        eyebrow: "Fabric · Minecraft 26.2 · server side",
-        title: "Minecraft, in parallel.",
-        subtitle: "Leafs cuts the world into independent regions. Each region runs its own tick, on its own thread. Nothing else changes.",
+        eyebrow: "Fabric · 26.2 · server side",
+        title: "More cores, more players.",
+        subtitle: "Leafs runs the world in parallel. Every core adds players, on Fabric, with your mods and your datapacks.",
         primary: "Download on Modrinth",
         secondary: "Read the docs"
+    },
+    scale: {
+        context: "24 threads · 32 GB",
+        unit: "concurrent players",
+        rows: { vanilla: "Vanilla", paper: "Paper", leafs: "Leafs on Fabric" },
+        note: "Measured on a test server.",
+        joined: "joined the game"
     },
     regions: {
         title: "Regions grow around players",

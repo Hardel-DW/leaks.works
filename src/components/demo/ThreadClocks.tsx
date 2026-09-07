@@ -1,6 +1,7 @@
 import { useState } from "react";
 import DemoFrame, { DemoStat } from "@/components/demo/DemoFrame";
 import { useTicker } from "@/lib/hook/useTicker";
+import { useVisible } from "@/lib/hook/useVisible";
 import { useText } from "@/lib/i18n";
 import { advance, dayTime, FURNACE_TICKS, initialLanes, type Lane, PERIOD, tps } from "@/lib/sim/clocks";
 import { cn } from "@/lib/utils";
@@ -51,12 +52,13 @@ export default function ThreadClocks({ className }: { className?: string }) {
     const text = useText();
     const [state, setState] = useState(() => ({ now: 0, lanes: initialLanes() }));
 
-    useTicker(true, STEP, () => setState((current) => ({ now: current.now + STEP, lanes: current.lanes.map((lane) => advance(lane, current.now + STEP)) })));
+    const [visible, frame] = useVisible();
+    useTicker(visible, STEP, () => setState((current) => ({ now: current.now + STEP, lanes: current.lanes.map((lane) => advance(lane, current.now + STEP)) })));
 
     const [world, ...regions] = state.lanes;
 
     return (
-        <DemoFrame className={className}>
+        <DemoFrame ref={frame} className={className}>
             <div className="grid md:grid-cols-[13rem_1fr]">
                 <WorldClock lane={world} />
                 <div className="flex flex-col divide-y divide-line">
