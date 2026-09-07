@@ -29,12 +29,10 @@ export const fr = {
     clocks: {
         title: "Deux horloges, un seul monde",
         text: "Le thread serveur garde ce qui est global, l'heure et la météo, à coût fixe. Les régions tickent à côté, chacune à son rythme.",
-        server: "Thread serveur",
-        dimension: "Dimension",
-        region: "Région",
-        arrow: "en série, une dimension après l'autre",
-        parallel: "en parallèle",
-        legend: "Chaque barre est un tick. Sa hauteur est sa durée. Les pointillés marquent les 50 ms."
+        world: "Horloge monde",
+        ticks: "ticks",
+        furnace: "un four cuit un lingot",
+        legend: "L'heure avance au même rythme partout. La cuisson suit le TPS de la région."
     },
     pool: {
         title: "Une région est une tâche",
@@ -58,7 +56,6 @@ export const fr = {
         onThisPage: "Sur cette page",
         previous: "Précédent",
         next: "Suivant",
-        inCode: "Dans le code",
         groups: { start: "Commencer", model: "Le modèle", use: "Utiliser Leafs", project: "Le projet" }
     },
     patchnote: {

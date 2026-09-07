@@ -13,7 +13,7 @@ const MAX_PLAYERS = 6;
 
 type Sim = { tick: number; players: Player[]; loaded: Loaded };
 
-export const regionColor = (id: number) => `var(--color-region-${((id - 1) % 6) + 1})`;
+const regionColor = (id: number) => `var(--color-region-${((id - 1) % 6) + 1})`;
 
 const initial = (): Sim => ({
     tick: 0,
@@ -105,14 +105,14 @@ export default function RegionGrid({ className }: { className?: string }) {
                         type="button"
                         onClick={addPlayer}
                         disabled={sim.players.length >= MAX_PLAYERS}
-                        className="h-7 cursor-pointer rounded-xs border border-line px-2.5 text-xs font-semibold text-cream-200 transition-colors hover:bg-bark-800 disabled:opacity-30">
+                        className="bevel h-7 cursor-pointer border border-line px-2.5 text-xs font-semibold text-cream-200 transition-colors hover:bg-bark-800 disabled:opacity-30">
                         {text.regions.addPlayer}
                     </button>
                     <button
                         type="button"
                         onClick={removePlayer}
                         disabled={sim.players.length <= 1}
-                        className="h-7 cursor-pointer rounded-xs border border-line px-2.5 text-xs font-semibold text-cream-400 transition-colors hover:bg-bark-800 disabled:opacity-30">
+                        className="bevel h-7 cursor-pointer border border-line px-2.5 text-xs font-semibold text-cream-400 transition-colors hover:bg-bark-800 disabled:opacity-30">
                         {text.regions.removePlayer}
                     </button>
                 </div>

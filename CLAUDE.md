@@ -13,26 +13,29 @@ La doc du mod fait foi, elle est dans `..\leafs-template-26.2\docs\` et le code 
 - Le site est une SPA : l'hébergeur doit renvoyer `index.html` pour toute route.
 
 ## Stack
-Vite 8, React 19 sans compiler, Zustand, Tailwind 4, TypeScript, Biome. Indentation 4 espaces, largeur 200, guillemets doubles. Alias `@/` vers `src`.
+Vite 8, React 19 sans compiler, Zustand, Tailwind 4, TypeScript, Biome, `@voxelio/markdown` pour le contenu. Indentation 4 espaces, largeur 200, guillemets doubles. Alias `@/` vers `src`.
 
 ## Arborescence
 - `src/routes/` : le routing par fichiers. `index.tsx` la racine, `docs/$slug.tsx` un paramètre, `__root.tsx` le shell commun. Une route câble, elle ne construit pas.
-- `src/content/docs/<lang>/<slug>.ts` : une page de doc par fichier, un objet `DocPage` fait de blocs typés. `nav.ts` est la seule liste des slugs et des groupes. Les deux langues ont exactement les mêmes slugs, TypeScript le vérifie.
-- `src/content/patchnotes.ts` : les versions.
+- `src/content/content.ts` : les collections et la nav des docs. `NAV` est la seule liste des slugs et des groupes, chaque collection déclare son frontmatter. Ce fichier est chargé par Vite côté node, il n'importe rien du navigateur.
+- `src/content/docs/<lang>/<slug>.md` : une page de doc par fichier, frontmatter `title` et `lead`. Les démos s'insèrent par `::regions`, `::clocks`, `::pool`, une note par `:::note{tone="warn"}`.
+- `src/content/patchnotes/<lang>/<version>.md` : une version par fichier, frontmatter `date` et `minecraft`.
+- `src/lib/content/` : `plugin.ts` compile chaque markdown en arbre de blocs au build et au dev, et refuse un frontmatter incomplet ou un slug absent d'une langue. `schema.ts` le lecteur de frontmatter, `load.ts` les collections côté navigateur. Le parseur est `@voxelio/markdown`.
 - `src/lib/i18n/` : les textes d'interface, `fr.ts` est la référence de type, `en.ts` doit avoir les mêmes clés.
 - `src/lib/sim/` : la logique pure des simulations, sans React.
 - `src/lib/store/` : Zustand. `src/lib/hook/` : les hooks. `src/lib/router.tsx`, `src/lib/utils.ts` (`cn`), `src/lib/links.ts` (liens externes).
 - `src/components/ui/` : les briques communes, `Button`, `Icon`, `Leaf`. Ajouter ici demande une approbation.
-- `src/components/demo/` : les simulations interactives, `RegionGrid`, `ThreadTimeline`, `WorkerPool`, et leur cadre `DemoFrame`.
+- `src/components/demo/` : les simulations interactives, `RegionGrid`, `ThreadClocks`, `WorkerPool`, et leur cadre `DemoFrame`.
 - `src/components/docs/`, `src/components/home/`, `src/components/layout/` : par surface.
 
 ## Direction artistique
 Les règles sont universelles, chaque écran les applique toutes. Les tokens vivent dans `globals.css`, en `@theme static` : chaque variable existe toujours, même lue en `var()` depuis un SVG ou un style inline. La palette Tailwind par défaut est désactivée.
-- **La grille**. Un seul conteneur, `frame`, bordé de deux lignes verticales. Chaque section est une `row`, fermée par une ligne, avec une petite croix aux deux intersections. Des cellules côte à côte passent par `cells`. Aucune autre bordure de page.
+- **La grille**. Un seul conteneur, `frame`, bordé de deux lignes verticales. Sur l'accueil, les bandes hors du cadre sont hachurées en `hatched`, couleur `line`. Chaque section est une `row`, fermée par une ligne, avec une petite croix aux deux intersections. Des cellules côte à côte passent par `cells`. Aucune autre bordure de page.
 - **Les îlots**. Tout panneau, démo, tableau ou bloc de code est un `island` : bordure 1px `line`, rayon 2px, fond `bark-900`. Pas d'ombre, pas de dégradé.
+- **Les boutons**. Coins haut droit et bas gauche coupés en biseau par `bevel`, `corner-shape: bevel` sur un rayon `md`, avec repli sur le rayon 2px quand le navigateur ne connaît pas `corner-shape`.
 - **Les couleurs**. Fond `bark-950`, texte `cream-200`, titres `cream-50`, secondaire `cream-400`, discret `cream-500`. Accent `leaf-400`, or `honey-400` pour les avertissements, `ember-400` pour le retard. Les régions des démos prennent `region-1` à `region-6`, dans cet ordre.
 - **La typo**. Manrope pour tout, JetBrains Mono pour le code et les nombres. Titres de section 3xl/4xl `tracking-display` et `text-balance`. Prose 16.5px, interligne 1.75, 44rem de large, `text-pretty`. Libellés en `label`, petites majuscules espacées.
-- **Le mouvement**. Trois seulement : l'entrée (`rise`, `reveal`), le survol (couleurs, 150 ms) et les simulations. Rien d'autre ne bouge. Les feuilles au vent ne tournent qu'une fois, à l'arrivée sur l'accueil. `prefers-reduced-motion` coupe tout.
+- **Le mouvement**. Trois seulement : l'entrée (`rise`, `reveal`), le survol (couleurs, 150 ms) et les simulations. Rien d'autre ne bouge. `prefers-reduced-motion` coupe tout.
 
 ## Règles de code
 - Pas de biome-ignore ni de ts-ignore. Pas de `any`. Pas de commentaire. Pas de cast `as` hors `as const`.

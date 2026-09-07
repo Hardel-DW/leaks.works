@@ -51,12 +51,12 @@
     --color-cream-500: oklch(0.64 0.024 68);
     --color-cream-700: oklch(0.5 0.022 62);
 
-    --color-leaf-200: oklch(0.9 0.11 132);
-    --color-leaf-300: oklch(0.84 0.15 132);
-    --color-leaf-400: oklch(0.77 0.17 133);
-    --color-leaf-500: oklch(0.68 0.16 134);
-    --color-leaf-700: oklch(0.45 0.11 136);
-    --color-leaf-900: oklch(0.26 0.05 138);
+    --color-leaf-200: oklch(0.78 0.11 142);
+    --color-leaf-300: oklch(0.68 0.13 143);
+    --color-leaf-400: oklch(0.55 0.13 145);
+    --color-leaf-500: oklch(0.47 0.12 146);
+    --color-leaf-700: oklch(0.36 0.09 147);
+    --color-leaf-900: oklch(0.24 0.05 148);
 
     --color-honey-300: oklch(0.86 0.13 82);
     --color-honey-400: oklch(0.8 0.15 78);
@@ -64,7 +64,7 @@
 
     --color-ember-400: oklch(0.72 0.15 38);
 
-    --color-region-1: oklch(0.77 0.17 133);
+    --color-region-1: oklch(0.62 0.14 144);
     --color-region-2: oklch(0.8 0.15 78);
     --color-region-3: oklch(0.72 0.15 38);
     --color-region-4: oklch(0.76 0.11 195);
@@ -82,8 +82,6 @@
 
     --animate-sway: sway 6s ease-in-out infinite;
     --animate-breathe: breathe 5s ease-in-out infinite;
-    --animate-drift: drift var(--dur, 9s) linear var(--delay, 0s) 1 both;
-    --animate-tumble: tumble var(--spin, 4s) ease-in-out infinite;
 
     @keyframes sway {
         0%,
@@ -104,42 +102,6 @@
         50% {
             opacity: 1;
             scale: 1.02;
-        }
-    }
-
-    @keyframes drift {
-        0% {
-            translate: 0 0;
-            opacity: 0;
-        }
-        6% {
-            opacity: var(--peak, 0.7);
-        }
-        25% {
-            translate: -25vw calc(var(--amp) * 1);
-        }
-        50% {
-            translate: -50vw calc(var(--amp) * -0.6);
-        }
-        75% {
-            translate: -75vw calc(var(--amp) * 0.8);
-        }
-        94% {
-            opacity: var(--peak, 0.7);
-        }
-        100% {
-            translate: -105vw calc(var(--amp) * -0.2);
-            opacity: 0;
-        }
-    }
-
-    @keyframes tumble {
-        0%,
-        100% {
-            rotate: -40deg;
-        }
-        50% {
-            rotate: 50deg;
         }
     }
 
@@ -187,6 +149,10 @@
     &::after {
         right: -4px;
     }
+}
+
+@utility hatched {
+    background-image: repeating-linear-gradient(-45deg, color-mix(in oklch, var(--color-line) 45%, transparent) 0 1px, transparent 1px 45px);
 }
 
 @utility cells {
@@ -249,6 +215,15 @@
     }
 }
 
+@utility bevel {
+    border-radius: var(--radius-xs);
+
+    @supports (corner-shape: bevel) {
+        corner-shape: bevel;
+        border-radius: 0 var(--radius-md);
+    }
+}
+
 @utility glow-border {
     position: relative;
     isolation: isolate;
@@ -259,6 +234,7 @@
         inset: -1px;
         z-index: -1;
         border-radius: inherit;
+        corner-shape: inherit;
         padding: 1px;
         background: conic-gradient(from var(--angle), var(--color-leaf-500), var(--color-honey-400), var(--color-leaf-700), var(--color-leaf-500));
         mask:

@@ -31,12 +31,10 @@ export const en: Text = {
     clocks: {
         title: "Two clocks, one world",
         text: "The server thread keeps what is global, time and weather, at a fixed cost. Regions tick beside it, each at its own pace.",
-        server: "Server thread",
-        dimension: "Dimension",
-        region: "Region",
-        arrow: "serial, one dimension after another",
-        parallel: "in parallel",
-        legend: "Each bar is one tick. Its height is its duration. The dashes mark 50 ms."
+        world: "World clock",
+        ticks: "ticks",
+        furnace: "a furnace smelts one ingot",
+        legend: "Time of day advances at the same pace everywhere. Smelting follows the TPS of the region."
     },
     pool: {
         title: "A region is a task",
@@ -60,7 +58,6 @@ export const en: Text = {
         onThisPage: "On this page",
         previous: "Previous",
         next: "Next",
-        inCode: "In the code",
         groups: { start: "Start", model: "The model", use: "Using Leafs", project: "The project" }
     },
     patchnote: {

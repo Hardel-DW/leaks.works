@@ -3,7 +3,7 @@ import { Link } from "@/lib/router";
 import { cn } from "@/lib/utils";
 
 const VARIANTS = {
-    primary: "glow-border bg-leaf-400 text-bark-950 hover:bg-leaf-300",
+    primary: "glow-border bg-leaf-400 text-cream-50 hover:bg-leaf-500",
     secondary: "border border-line bg-bark-900 text-cream-50 hover:border-bark-600 hover:bg-bark-800",
     ghost: "text-cream-400 hover:bg-bark-800 hover:text-cream-50",
     icon: "size-9 px-0 text-cream-500 hover:bg-bark-800 hover:text-cream-50"
@@ -17,7 +17,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Button({ variant = "secondary", className, href, to, children, ...rest }: ButtonProps) {
     const classes = cn(
-        "inline-flex h-10 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-xs px-4 text-sm font-semibold transition-colors duration-150 ease-soft disabled:pointer-events-none disabled:opacity-40",
+        "bevel inline-flex h-10 cursor-pointer items-center justify-center gap-2 whitespace-nowrap px-4 text-sm font-semibold transition-colors duration-150 ease-soft disabled:pointer-events-none disabled:opacity-40",
         VARIANTS[variant],
         className
     );

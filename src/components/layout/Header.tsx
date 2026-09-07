@@ -69,7 +69,7 @@ export default function Header() {
                         href={LINKS.modrinth}
                         target="_blank"
                         rel="noreferrer"
-                        className="ml-2 hidden h-8 items-center gap-2 rounded-xs bg-leaf-400 px-3 text-sm font-semibold text-bark-950 transition-colors duration-150 ease-soft hover:bg-leaf-300 sm:flex">
+                        className="bevel ml-2 hidden h-8 items-center gap-2 bg-leaf-400 px-3 text-sm font-semibold text-cream-50 transition-colors duration-150 ease-soft hover:bg-leaf-500 sm:flex">
                         <Icon name="modrinth" className="size-3.5" />
                         {text.nav.download}
                     </a>

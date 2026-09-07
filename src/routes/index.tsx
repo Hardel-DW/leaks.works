@@ -1,9 +1,8 @@
 import type { CSSProperties } from "react";
 import RegionGrid from "@/components/demo/RegionGrid";
-import ThreadTimeline from "@/components/demo/ThreadTimeline";
+import ThreadClocks from "@/components/demo/ThreadClocks";
 import WorkerPool from "@/components/demo/WorkerPool";
 import HeroMark from "@/components/home/HeroMark";
-import WindLeaves from "@/components/home/WindLeaves";
 import Button from "@/components/ui/Button";
 import Icon from "@/components/ui/Icon";
 import { useText } from "@/lib/i18n";
@@ -14,9 +13,8 @@ const delay = (ms: number) => ({ "--delay": `${ms}ms` }) as CSSProperties;
 export default function Home() {
     const text = useText();
     return (
-        <div className="relative">
-            <WindLeaves />
-            <div className="frame">
+        <div className="hatched">
+            <div className="frame bg-bark-950">
                 <section className="row grid gap-10 px-6 py-20 md:grid-cols-[1.15fr_1fr] md:items-center md:py-28 lg:px-12">
                     <div className="flex flex-col items-start gap-6">
                         <p className="label rise" style={delay(0)}>
@@ -54,7 +52,7 @@ export default function Home() {
                         <Heading title={text.clocks.title} text={text.clocks.text} />
                     </div>
                     <div className="px-6 py-10 lg:px-10">
-                        <ThreadTimeline className="reveal" />
+                        <ThreadClocks className="reveal" />
                     </div>
                 </section>
 

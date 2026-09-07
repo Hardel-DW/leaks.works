@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-export type Locale = "en" | "fr";
+import type { Locale } from "@/content/content";
 
 const browserLocale = (): Locale => (navigator.language.toLowerCase().startsWith("fr") ? "fr" : "en");
 

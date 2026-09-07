@@ -109,20 +109,45 @@ const sectionOfPlayer = (player: Player) => {
     return key(sectionOf(center.x), sectionOf(center.z));
 };
 
+const SECTION_REACH = Math.ceil(SIMULATION_DISTANCE / SECTION);
+
+const sectionDistance = (a: number, b: number) => chebyshev(fromKey(a), fromKey(b));
+
+function nearestSection(sections: Iterable<number>, from: number): number | null {
+    let best: number | null = null;
+    for (const packed of sections) if (best === null || sectionDistance(packed, from) < sectionDistance(best, from)) best = packed;
+    return best;
+}
+
+function seedOf(sections: Iterable<number>, player: Player): number | null {
+    const own = sectionOfPlayer(player);
+    const nearest = nearestSection(sections, own);
+    return nearest !== null && sectionDistance(nearest, own) <= SECTION_REACH ? nearest : null;
+}
+
+function nearestPlayer(players: Player[], section: number): Player {
+    let best = players[0];
+    for (const player of players) if (sectionDistance(sectionOfPlayer(player), section) < sectionDistance(sectionOfPlayer(best), section)) best = player;
+    return best;
+}
+
 export function computeRegions(simulated: Set<number>, players: Player[]): Regions {
     const active = activeSections(simulated);
     const assigned = new Map<number, number>();
     for (const player of players) {
-        const start = sectionOfPlayer(player);
-        if (active.has(start) && !assigned.has(start)) flood(active, start, player.id, assigned);
+        const seed = seedOf(active, player);
+        if (seed !== null && !assigned.has(seed)) flood(active, seed, player.id, assigned);
     }
-    for (const packed of active) if (!assigned.has(packed)) flood(active, packed, players[0]?.id ?? 0, assigned);
+    for (const packed of active) if (!assigned.has(packed)) flood(active, packed, nearestPlayer(players, packed).id, assigned);
     const crown = new Set<number>();
     for (const packed of active) for (const near of neighbours(packed, 1)) if (!active.has(near)) crown.add(near);
     return { active: assigned, crown };
 }
 
-export const regionOfPlayer = (regions: Regions, player: Player) => regions.active.get(sectionOfPlayer(player)) ?? player.id;
+export function regionOfPlayer(regions: Regions, player: Player): number {
+    const seed = seedOf(regions.active.keys(), player);
+    return seed === null ? player.id : (regions.active.get(seed) ?? player.id);
+}
 
 export function outline(cells: Set<number>, unit: number): Edge[] {
     const edges: Edge[] = [];

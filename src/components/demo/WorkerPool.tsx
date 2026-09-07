@@ -1,29 +1,36 @@
 import { useState } from "react";
 import DemoFrame, { DemoBar, DemoStat, Stepper } from "@/components/demo/DemoFrame";
-import { regionColor } from "@/components/demo/RegionGrid";
 import { useTicker } from "@/lib/hook/useTicker";
 import { useText } from "@/lib/i18n";
-import { BUDGET, baseCost, jitter, MAX_REGIONS, MAX_WORKERS, type Placement, RANGE, schedule } from "@/lib/sim/pool";
+import { BUDGET, isLate, MAX_REGIONS, MAX_WORKERS, type Placement, RANGE, randomTasks, schedule, type Task } from "@/lib/sim/pool";
 import { cn } from "@/lib/utils";
 
 const PLOT_HEIGHT = 260;
-const SCALE = PLOT_HEIGHT / RANGE;
+const STEP_MS = 100;
+const HOLD_STEPS = 12;
+const FADE_STEPS = 5;
 
-type Pool = { workers: number; costs: number[] };
+type Pool = { workers: number; tasks: Task[]; step: number };
 
-const costsFor = (count: number) => Array.from({ length: count }, (_, id) => jitter(baseCost(id)));
-const isLate = (placement: Placement) => placement.start + placement.cost > BUDGET;
+const percent = (ms: number) => `${(ms / RANGE) * 100}%`;
+const isShown = (placement: Placement, step: number, count: number) => placement.id < step && step < count + HOLD_STEPS;
 
-function Block({ placement, columnWidth }: { placement: Placement; columnWidth: number }) {
+const advance = (state: Pool): Pool => {
+    const step = state.step + 1;
+    if (step < state.tasks.length + HOLD_STEPS + FADE_STEPS) return { ...state, step };
+    return { ...state, step: 0, tasks: randomTasks(state.tasks.length) };
+};
+
+function Block({ placement, rowHeight, shown }: { placement: Placement; rowHeight: number; shown: boolean }) {
     return (
         <div
-            className={cn("absolute rounded-[1px] border border-bark-950/60 transition-all duration-500 ease-emphasized", isLate(placement) ? "bg-ember-400 opacity-95" : "opacity-80")}
+            className={cn("absolute rounded-[1px] opacity-80 transition-opacity duration-300 ease-soft", isLate(placement) && "ring-1 ring-ember-400 ring-inset", !shown && "opacity-0")}
             style={{
-                left: `calc(${placement.worker * columnWidth}% + 2px)`,
-                width: `calc(${columnWidth}% - 4px)`,
-                bottom: placement.start * SCALE,
-                height: Math.max(3, placement.cost * SCALE - 1),
-                backgroundColor: isLate(placement) ? undefined : regionColor(placement.id + 1)
+                left: percent(placement.start),
+                width: percent(placement.cost),
+                top: `calc(${placement.worker * rowHeight}% + 2px)`,
+                height: `calc(${rowHeight}% - 4px)`,
+                backgroundColor: `var(--color-region-${placement.tone})`
             }}
         />
     );
@@ -31,42 +38,51 @@ function Block({ placement, columnWidth }: { placement: Placement; columnWidth: 
 
 export default function WorkerPool({ className }: { className?: string }) {
     const text = useText();
-    const [pool, setPool] = useState<Pool>({ workers: 12, costs: costsFor(20) });
+    const [pool, setPool] = useState<Pool>({ workers: 12, tasks: randomTasks(40), step: 0 });
 
-    useTicker(true, 900, () => setPool((state) => ({ ...state, costs: state.costs.map((_, id) => jitter(baseCost(id))) })));
+    useTicker(true, STEP_MS, () => setPool(advance));
 
-    const placements = schedule(pool.costs, pool.workers);
-    const late = placements.filter(isLate).length;
-    const columnWidth = 100 / pool.workers;
+    const placements = schedule(pool.tasks, pool.workers);
+    const late = placements.filter((placement) => placement.id < pool.step && isLate(placement)).length;
+    const rowHeight = 100 / pool.workers;
     const workers = Array.from({ length: pool.workers }, (_, index) => index + 1);
 
     return (
         <DemoFrame className={className}>
             <DemoBar>
-                <Stepper label={text.pool.threads} value={pool.workers} min={1} max={MAX_WORKERS} onChange={(workers) => setPool((state) => ({ ...state, workers }))} />
-                <Stepper label={text.pool.regions} value={pool.costs.length} min={1} max={MAX_REGIONS} onChange={(count) => setPool((state) => ({ ...state, costs: costsFor(count) }))} />
+                <Stepper label={text.pool.threads} value={pool.workers} min={1} max={MAX_WORKERS} onChange={(workers) => setPool((state) => ({ ...state, workers, step: 0 }))} />
+                <Stepper label={text.pool.regions} value={pool.tasks.length} min={1} max={MAX_REGIONS} onChange={(count) => setPool((state) => ({ ...state, tasks: randomTasks(count), step: 0 }))} />
                 <DemoStat value={late} unit={text.pool.late} className={cn("ml-auto", late > 0 && "text-ember-400")} />
             </DemoBar>
-            <div className="relative mx-3 mt-3 overflow-hidden" style={{ height: PLOT_HEIGHT }}>
-                <div className="absolute inset-0 flex">
+            <div className="grid grid-cols-[1.5rem_1fr] pt-3 pr-3">
+                <div className="flex flex-col" style={{ height: PLOT_HEIGHT }}>
                     {workers.map((worker) => (
-                        <div key={worker} className="flex-1 border-l border-line last:border-r" />
+                        <span key={worker} className="flex flex-1 items-center justify-center font-mono text-[9px] text-cream-700">
+                            {worker}
+                        </span>
                     ))}
                 </div>
-                <div className="absolute inset-x-0 flex items-center gap-2" style={{ bottom: BUDGET * SCALE }}>
-                    <span className="h-px flex-1 border-t border-dashed border-cream-500/60" />
-                    <span className="font-mono text-[10px] tabular text-cream-500">{text.pool.budget}</span>
+                <div className="relative overflow-hidden" style={{ height: PLOT_HEIGHT }}>
+                    <div className="absolute inset-0 flex flex-col">
+                        {workers.map((worker) => (
+                            <div key={worker} className="flex-1 border-t border-line last:border-b" />
+                        ))}
+                    </div>
+                    <div className="absolute inset-y-0 flex flex-col items-center gap-1" style={{ left: percent(BUDGET) }}>
+                        <span className="w-px flex-1 border-l border-dashed border-cream-500/60" />
+                        <span className="font-mono text-[10px] tabular text-cream-500">{text.pool.budget}</span>
+                    </div>
+                    {placements.map((placement) => (
+                        <Block key={placement.id} placement={placement} rowHeight={rowHeight} shown={isShown(placement, pool.step, placements.length)} />
+                    ))}
                 </div>
-                {placements.map((placement) => (
-                    <Block key={placement.id} placement={placement} columnWidth={columnWidth} />
-                ))}
             </div>
-            <div className="mx-3 flex border-t border-line py-1.5">
-                {workers.map((worker) => (
-                    <span key={worker} className="flex-1 text-center font-mono text-[9px] text-cream-700">
-                        {worker}
-                    </span>
-                ))}
+            <div className="grid grid-cols-[1.5rem_1fr] border-t border-line py-1.5 pr-3 font-mono text-[9px] text-cream-700">
+                <span />
+                <div className="flex justify-between">
+                    <span>0 ms</span>
+                    <span>{RANGE} ms</span>
+                </div>
             </div>
         </DemoFrame>
     );

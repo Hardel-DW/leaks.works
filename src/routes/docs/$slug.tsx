@@ -1,6 +1,6 @@
 import DocsShell from "@/components/docs/DocsShell";
 import NotFound from "@/components/layout/NotFound";
-import { isSlug } from "@/content/docs/nav";
+import { isSlug } from "@/content/content";
 import { useParams } from "@/lib/router";
 
 export default function DocPage() {
