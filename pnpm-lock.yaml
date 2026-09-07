@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@voxelio/markdown':
-        specifier: file:..\voxelio\packages\markdown\voxelio-markdown-0.1.2.tgz
-        version: file:../voxelio/packages/markdown/voxelio-markdown-0.1.2.tgz(react@19.2.8)
+        specifier: 0.2.0
+        version: 0.2.0(react@19.2.8)
       react:
         specifier: ^19.2.7
         version: 19.2.8
@@ -351,9 +351,8 @@ packages:
       babel-plugin-react-compiler:
         optional: true
 
-  '@voxelio/markdown@file:../voxelio/packages/markdown/voxelio-markdown-0.1.2.tgz':
-    resolution: {integrity: sha512-u6gvR5WtqUj7qMzzsNLIoRYU+Y2ckveZ5ic6hfFxoG6sNXj6PmIeExhB35D0TLDYQ9vePZCJ1MADz8k3hcVniw==, tarball: file:../voxelio/packages/markdown/voxelio-markdown-0.1.2.tgz}
-    version: 0.1.2
+  '@voxelio/markdown@0.2.0':
+    resolution: {integrity: sha512-veu6SXDstoLqFGuneOMAA1VCBnTisJc4bhJsrALqEha23rMJLOEPqF4B41Q2q1vqt+ATY0bnKkC4V8OgR/rU1Q==}
     peerDependencies:
       react: '>=19.0.0'
 
@@ -877,7 +876,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.1
       vite: 8.1.5(@types/node@24.13.3)(jiti@2.7.0)
 
-  '@voxelio/markdown@file:../voxelio/packages/markdown/voxelio-markdown-0.1.2.tgz(react@19.2.8)':
+  '@voxelio/markdown@0.2.0(react@19.2.8)':
     dependencies:
       react: 19.2.8
 
