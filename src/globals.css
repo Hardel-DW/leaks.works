@@ -192,6 +192,7 @@
 }
 
 @utility hatched {
+    overflow-x: clip;
     background-image: repeating-linear-gradient(-45deg, color-mix(in oklch, var(--color-line) 45%, transparent) 0 1px, transparent 1px 45px);
 }
 
@@ -370,7 +371,6 @@
 
     body {
         min-height: 100dvh;
-        overflow-x: clip;
         background-color: var(--color-bark-950);
         color: var(--color-cream-200);
         font-family: var(--font-sans);
