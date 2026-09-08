@@ -1,9 +1,13 @@
 import Prose from "@/components/docs/Prose";
+import { HEADS } from "@/content/heads";
 import { patchnotesFor } from "@/lib/content/load";
 import { useText } from "@/lib/i18n";
+import type { RouteConfig } from "@/lib/router";
 import { useLocale } from "@/lib/store/locale";
 
-export default function Patchnote() {
+export default { head: () => HEADS.patchnote, component: Patchnote } satisfies RouteConfig;
+
+function Patchnote() {
     const text = useText();
     const releases = patchnotesFor(useLocale());
     return (

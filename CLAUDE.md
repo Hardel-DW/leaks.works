@@ -10,17 +10,18 @@ La doc du mod fait foi, elle est dans `..\leafs-template-26.2\docs\` et le code 
 - **Dev** : `npm run dev`, ne pas démarrer un serveur si un tourne déjà.
 - **Build** : `npm run build`, **Preview** : `npm run preview`.
 - **Typecheck** : `npm run lint`. **Format** : `npm run biome:format`. **Lint** : `npm run biome:check`.
-- Le site est une SPA : l'hébergeur doit renvoyer `index.html` pour toute route.
+- Le site est une SPA : l'hébergeur doit renvoyer `index.html` pour toute route. Le build écrit aussi un `index.html` par page, avec son titre et ses balises OG, que l'hébergeur sert en priorité.
 
 ## Stack
 Vite 8, React 19 sans compiler, Zustand, Tailwind 4, TypeScript, Biome, `@voxelio/markdown` pour le contenu. Indentation 4 espaces, largeur 200, guillemets doubles. Alias `@/` vers `src`.
 
 ## Arborescence
-- `src/routes/` : le routing par fichiers. `index.tsx` la racine, `docs/$slug.tsx` un paramètre, `__root.tsx` le shell commun. Une route câble, elle ne construit pas.
+- `src/routes/` : le routing par fichiers. `index.tsx` la racine, `docs/$slug.tsx` un paramètre, `__root.tsx` le shell commun, `og.tsx` la scène capturée dans `public/og.png`. Une route exporte par défaut `{ head, component }` en tête de fichier, `head` donne le titre et la description de la page. Une route câble, elle ne construit pas.
 - `src/content/content.ts` : les collections et la nav des docs. `NAV` est la seule liste des slugs et des groupes, chaque collection déclare son frontmatter. Ce fichier est chargé par Vite côté node, il n'importe rien du navigateur.
+- `src/content/heads.ts` : le titre et la description de chaque page, en anglais, la seule langue des crawlers et de l'onglet. Le routeur les pose à chaque navigation, `pages.ts` les écrit au build.
 - `src/content/docs/<lang>/<slug>.md` : une page de doc par fichier, frontmatter `title` et `lead`. Les démos s'insèrent par `::regions`, `::clocks`, `::pool`, une note par `:::note{tone="warn"}`.
 - `src/content/patchnotes/<lang>/<version>.md` : une version par fichier, frontmatter `date` et `minecraft`.
-- `src/lib/content/` : `plugin.ts` compile chaque markdown en arbre de blocs au build et au dev, et refuse un frontmatter incomplet ou un slug absent d'une langue. `schema.ts` le lecteur de frontmatter, `load.ts` les collections côté navigateur. Le parseur est `@voxelio/markdown`.
+- `src/lib/content/` : `plugin.ts` compile chaque markdown en arbre de blocs au build et au dev, et refuse un frontmatter incomplet ou un slug absent d'une langue. `pages.ts` écrit après le build un HTML par page à partir de `heads.ts`, à la place du marqueur `<!--pages-->` de `index.html`. `schema.ts` le lecteur de frontmatter, `load.ts` les collections côté navigateur. Le parseur est `@voxelio/markdown`.
 - `src/lib/i18n/` : les textes d'interface, `fr.ts` est la référence de type, `en.ts` doit avoir les mêmes clés.
 - `src/lib/sim/` : la logique pure des simulations, sans React.
 - `src/lib/store/` : Zustand. `src/lib/hook/` : les hooks. `src/lib/router.tsx`, `src/lib/utils.ts` (`cn`), `src/lib/links.ts` (liens externes).

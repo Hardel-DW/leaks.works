@@ -1,9 +1,11 @@
-import React, { createContext, useContext, useSyncExternalStore } from "react";
+import React, { type ComponentType, createContext, useContext, useSyncExternalStore } from "react";
+import { HEADS, type Head } from "@/content/heads";
+import RootComponent from "@/routes/__root";
 
 type LocationState = { pathname: string };
-type RouteModule = { default: React.ComponentType };
-type RouteEntry = { segments: string[]; component: React.ComponentType };
 type Params = Record<string, string>;
+export type RouteConfig = { head: (params: Params) => Head; component: ComponentType };
+type RouteEntry = RouteConfig & { segments: string[] };
 
 const NAVIGATE_EVENT = "leafs:navigate";
 const OutletContext = createContext<React.ReactNode>(null);
@@ -13,9 +15,46 @@ const readLocation = (): LocationState => ({ pathname: window.location.pathname.
 
 let currentLocation = readLocation();
 
+const ROUTES_DIR = "/src/routes";
+
+const modules = import.meta.glob<RouteConfig>(["/src/routes/**/*.tsx", "!/src/routes/__root.tsx"], { eager: true, import: "default" });
+
+const toSegments = (file: string) =>
+    file
+        .slice(ROUTES_DIR.length + 1, -".tsx".length)
+        .split("/")
+        .filter((segment) => segment !== "index");
+
+const pages: RouteEntry[] = Object.entries(modules).map(([file, config]) => ({ ...config, segments: toSegments(file) }));
+
+function match(route: RouteEntry, path: string[]): Params | null {
+    if (route.segments.length !== path.length) return null;
+    const params: Params = {};
+    for (const [index, segment] of route.segments.entries()) {
+        if (segment.startsWith("$")) params[segment.slice(1)] = decodeURIComponent(path[index]);
+        else if (segment !== path[index]) return null;
+    }
+    return params;
+}
+
+function resolve(pathname: string): { route: RouteEntry; params: Params } | null {
+    const path = pathname.split("/").filter(Boolean);
+    for (const route of pages) {
+        const params = match(route, path);
+        if (params) return { route, params };
+    }
+    return null;
+}
+
+function applyHead(pathname: string) {
+    const resolved = resolve(pathname);
+    document.title = (resolved ? resolved.route.head(resolved.params) : HEADS.notFound).title;
+}
+
 const subscribe = (callback: () => void) => {
     const onPopState = () => {
         currentLocation = readLocation();
+        applyHead(currentLocation.pathname);
         callback();
     };
     window.addEventListener("popstate", onPopState);
@@ -32,6 +71,7 @@ export const navigate = (to: string) => {
         window.scrollTo({ top: 0, behavior: "instant" });
     }
     currentLocation = readLocation();
+    applyHead(currentLocation.pathname);
     window.dispatchEvent(new Event(NAVIGATE_EVENT));
 };
 
@@ -61,51 +101,19 @@ export function useLocation(): LocationState {
     );
 }
 
-const ROUTES_DIR = "/src/routes";
+const Root = React.memo(RootComponent);
 
-const modules = import.meta.glob<RouteModule>("/src/routes/**/*.tsx", { eager: true });
-
-const toSegments = (file: string) =>
-    file
-        .slice(ROUTES_DIR.length + 1, -".tsx".length)
-        .split("/")
-        .filter((segment) => segment !== "index");
-
-const entries: RouteEntry[] = Object.entries(modules).map(([file, module]) => ({ segments: toSegments(file), component: module.default }));
-
-const rootRoute = entries.find((entry) => entry.segments[0] === "__root");
-const pages = entries.filter((entry) => entry !== rootRoute);
-
-function match(route: RouteEntry, path: string[]): Params | null {
-    if (route.segments.length !== path.length) return null;
-    const params: Params = {};
-    for (const [index, segment] of route.segments.entries()) {
-        if (segment.startsWith("$")) params[segment.slice(1)] = decodeURIComponent(path[index]);
-        else if (segment !== path[index]) return null;
-    }
-    return params;
-}
-
-function resolve(pathname: string): { component: React.ComponentType; params: Params } | null {
-    const path = pathname.split("/").filter(Boolean);
-    for (const route of pages) {
-        const params = match(route, path);
-        if (params) return { component: route.component, params };
-    }
-    return null;
-}
-
-const Root = rootRoute ? React.memo(rootRoute.component) : React.Fragment;
-
-export function RouterView({ fallback: Fallback }: { fallback: React.ComponentType }) {
+export function RouterView({ fallback: Fallback }: { fallback: ComponentType }) {
     const { pathname } = useLocation();
     const resolved = resolve(pathname);
-    const content = resolved ? <resolved.component /> : <Fallback />;
+    const Page = resolved?.route.component ?? Fallback;
     return (
         <ParamsContext value={resolved?.params ?? {}}>
-            <OutletContext value={content}>
+            <OutletContext value={<Page />}>
                 <Root />
             </OutletContext>
         </ParamsContext>
     );
 }
+
+applyHead(currentLocation.pathname);

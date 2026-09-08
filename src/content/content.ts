@@ -1,5 +1,6 @@
 import { defineCollection } from "../lib/content/schema";
 
+export const SITE_NAME = "Leafs";
 export const LOCALES = ["en", "fr"] as const;
 export type Locale = (typeof LOCALES)[number];
 
@@ -17,6 +18,7 @@ export const SLUGS: DocSlug[] = NAV.flatMap((group) => [...group.slugs]);
 export const FIRST_SLUG: DocSlug = SLUGS[0];
 
 export const isSlug = (value: string): value is DocSlug => SLUGS.some((slug) => slug === value);
+export const pageTitle = (heading: string) => `${heading} - ${SITE_NAME}`;
 
 export const collections = {
     docs: defineCollection((front) => ({ title: front.string("title"), lead: front.string("lead") }), SLUGS),

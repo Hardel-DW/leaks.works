@@ -6,12 +6,16 @@ import RegionBackdrop from "@/components/home/RegionBackdrop";
 import ScaleCard from "@/components/home/ScaleCard";
 import Button from "@/components/ui/Button";
 import Icon from "@/components/ui/Icon";
+import { HEADS } from "@/content/heads";
 import { useText } from "@/lib/i18n";
 import { LINKS } from "@/lib/links";
+import type { RouteConfig } from "@/lib/router";
+
+export default { head: () => HEADS.home, component: Home } satisfies RouteConfig;
 
 const delay = (ms: number) => ({ "--delay": `${ms}ms` }) as CSSProperties;
 
-export default function Home() {
+function Home() {
     const text = useText();
     return (
         <div className="hatched">
