@@ -11,21 +11,23 @@ function Patchnote() {
     const text = useText();
     const releases = patchnotesFor(useLocale());
     return (
-        <div className="frame">
-            <section className="row px-6 py-16 lg:px-12">
-                <h1 className="text-balance text-4xl font-bold tracking-display text-cream-50 sm:text-5xl">{text.patchnote.title}</h1>
-                <p className="mt-4 text-lg text-cream-400">{text.patchnote.subtitle}</p>
-            </section>
-            {releases.map((release) => (
-                <section key={release.version} className="row grid gap-6 px-6 py-12 md:grid-cols-[12rem_1fr] lg:px-12">
-                    <div className="flex flex-col gap-1">
-                        <span className="font-mono text-2xl font-semibold tabular text-cream-50">{release.version}</span>
-                        <span className="font-mono text-xs text-cream-500">{release.data.date}</span>
-                        <span className="label mt-2">{release.data.minecraft}</span>
-                    </div>
-                    <Prose blocks={release.blocks} />
+        <div className="hatched">
+            <div className="frame bg-bark-950">
+                <section className="row px-6 py-16 lg:px-12">
+                    <h1 className="text-balance text-4xl font-bold tracking-display text-cream-50 sm:text-5xl">{text.patchnote.title}</h1>
+                    <p className="mt-4 text-lg text-cream-400">{text.patchnote.subtitle}</p>
                 </section>
-            ))}
+                {releases.map((release) => (
+                    <section key={release.version} className="row grid gap-6 px-6 py-12 md:grid-cols-[12rem_1fr] lg:px-12">
+                        <div className="flex flex-col gap-1">
+                            <span className="font-mono text-2xl font-semibold tabular text-cream-50">{release.version}</span>
+                            <span className="font-mono text-xs text-cream-500">{release.data.date}</span>
+                            <span className="label mt-2">{release.data.minecraft}</span>
+                        </div>
+                        <Prose blocks={release.blocks} />
+                    </section>
+                ))}
+            </div>
         </div>
     );
 }

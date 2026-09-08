@@ -19,8 +19,8 @@ const regionColor = (id: number) => `var(--color-region-${((id - 1) % 6) + 1})`;
 const initial = (): Sim => ({
     tick: 0,
     players: [
-        { id: 1, x: 14.5, z: 12.5 },
-        { id: 2, x: 37.5, z: 13.5 }
+        { id: 1, x: 18.5, z: 15.5 },
+        { id: 2, x: 33.5, z: 10.5 }
     ],
     loaded: new Map()
 });
@@ -124,7 +124,7 @@ export default function RegionGrid({ className }: { className?: string }) {
                     <DemoStat value={regionCount} unit={text.regions.regions} className="text-leaf-300" />
                 </div>
             </DemoBar>
-            <div className="overflow-x-auto">
+            <div className="flex justify-center overflow-hidden">
                 <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="min-w-140 w-full touch-none select-none" role="img" aria-label={text.regions.title}>
                     <defs>
                         <pattern id={gridId} width={CELL} height={CELL} patternUnits="userSpaceOnUse">
@@ -153,7 +153,7 @@ export default function RegionGrid({ className }: { className?: string }) {
                     <RegionOutlines regions={regions} />
                     {sim.players.map((player) => (
                         <g key={player.id} transform={`translate(${player.x * CELL} ${player.z * CELL})`} className="cursor-grab active:cursor-grabbing">
-                            <circle r={14} fill="transparent" onPointerDown={(event) => grab(event, player.id)} onPointerMove={move} onPointerUp={release} onPointerCancel={release} />
+                            <circle r={20} fill="transparent" onPointerDown={(event) => grab(event, player.id)} onPointerMove={move} onPointerUp={release} onPointerCancel={release} />
                             <circle
                                 r={6.5}
                                 fill={regionColor(regionOfPlayer(regions, player))}

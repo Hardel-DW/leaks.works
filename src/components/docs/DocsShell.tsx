@@ -1,4 +1,5 @@
 import { type BlockToken, plainText } from "@voxelio/markdown";
+import type React from "react";
 import Prose from "@/components/docs/Prose";
 import Toc, { type TocItem } from "@/components/docs/Toc";
 import Icon from "@/components/ui/Icon";
@@ -74,40 +75,51 @@ function Pager({ current }: { current: DocSlug }) {
     );
 }
 
+const closeOnLink = (event: React.MouseEvent<HTMLElement>) => {
+    if (event.target instanceof Element && event.target.closest("a")) event.currentTarget.hidePopover();
+};
+
 export default function DocsShell({ slug }: { slug: DocSlug }) {
     const text = useText();
     const page = docsFor(useLocale())[slug];
     return (
-        <div className="frame grid lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)_13rem]">
-            <aside className="hidden border-r border-line lg:block">
-                <div className="sticky top-14 max-h-[calc(100dvh-3.5rem)] overflow-y-auto px-4 py-10">
-                    <Sidebar current={slug} />
-                </div>
-            </aside>
-            <details className="border-b border-line lg:hidden">
-                <summary className="flex cursor-pointer items-center gap-2 px-6 py-3 text-sm font-medium text-cream-400">
-                    <Icon name="menu" className="size-4" />
-                    {text.nav.docs}
-                </summary>
-                <div className="px-4 pb-6">
-                    <Sidebar current={slug} />
-                </div>
-            </details>
-            <article key={slug} className="min-w-0 px-6 py-12 sm:px-10 lg:px-14">
-                <div className="mx-auto max-w-[44rem]">
-                    <h1 className="text-balance text-4xl font-bold tracking-display text-cream-50 sm:text-[2.75rem] sm:leading-[1.1]">{page.data.title}</h1>
-                    <p className="mt-4 text-pretty text-lg leading-relaxed text-cream-400">{page.data.lead}</p>
-                    <div className="mt-10">
-                        <Prose blocks={page.blocks} />
+        <div className="hatched">
+            <div className="frame grid bg-bark-950 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)_13rem]">
+                <aside className="hidden border-r border-line lg:block">
+                    <div className="sticky top-14 max-h-[calc(100dvh-3.5rem)] overflow-y-auto px-4 py-10">
+                        <Sidebar current={slug} />
                     </div>
-                    <Pager current={slug} />
-                </div>
-            </article>
-            <aside className="hidden border-l border-line xl:block">
-                <div className="sticky top-14 max-h-[calc(100dvh-3.5rem)] overflow-y-auto px-5 py-10">
-                    <Toc items={headings(page.blocks)} />
-                </div>
-            </aside>
+                </aside>
+                <button
+                    type="button"
+                    popoverTarget="docs-nav"
+                    aria-label={text.nav.docs}
+                    className="fixed right-5 bottom-5 z-50 flex size-12 cursor-pointer items-center justify-center rounded-full border border-line bg-bark-900 text-cream-400 transition-colors duration-150 ease-soft hover:bg-bark-800 hover:text-cream-50 lg:hidden">
+                    <Icon name="menu" />
+                </button>
+                <nav
+                    id="docs-nav"
+                    popover="auto"
+                    onClick={closeOnLink}
+                    className="fixed inset-y-0 left-0 m-0 h-dvh w-72 max-w-[85vw] -translate-x-full overflow-y-auto border-r border-line bg-bark-950 px-4 py-8 transition-[translate,display,overlay] transition-discrete duration-200 ease-soft open:translate-x-0 starting:open:-translate-x-full backdrop:bg-bark-950/60 backdrop:transition-[background-color,display,overlay] backdrop:transition-discrete backdrop:duration-200 backdrop:ease-soft starting:open:backdrop:bg-transparent lg:hidden">
+                    <Sidebar current={slug} />
+                </nav>
+                <article key={slug} className="min-w-0 px-6 py-12 sm:px-10 lg:px-14">
+                    <div className="mx-auto max-w-[44rem]">
+                        <h1 className="text-balance text-4xl font-bold tracking-display text-cream-50 sm:text-[2.75rem] sm:leading-[1.1]">{page.data.title}</h1>
+                        <p className="mt-4 text-pretty text-lg leading-relaxed text-cream-400">{page.data.lead}</p>
+                        <div className="mt-10">
+                            <Prose blocks={page.blocks} />
+                        </div>
+                        <Pager current={slug} />
+                    </div>
+                </article>
+                <aside className="hidden border-l border-line xl:block">
+                    <div className="sticky top-14 max-h-[calc(100dvh-3.5rem)] overflow-y-auto px-5 py-10">
+                        <Toc items={headings(page.blocks)} />
+                    </div>
+                </aside>
+            </div>
         </div>
     );
 }

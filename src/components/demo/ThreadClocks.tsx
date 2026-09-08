@@ -29,21 +29,20 @@ function RegionRow({ lane, index, world, now }: { lane: Lane; index: number; wor
     const progress = ((lane.count % FURNACE_TICKS) / FURNACE_TICKS) * 100;
     const color = `var(--color-region-${index})`;
     return (
-        <div className="grid grid-cols-[4rem_4.5rem_1fr_7rem] items-center gap-4 px-5 py-3">
-            <span className="flex items-center gap-2 text-sm font-semibold text-cream-50">
-                <span className="size-2.5 rounded-xs" style={{ background: color }} />
-                {lane.label}
-            </span>
-            <span className={cn("font-mono text-xs tabular", rate < 20 ? "text-ember-400" : "text-cream-500")}>{rate.toFixed(0)} TPS</span>
-            <div className="flex flex-col gap-1">
-                <div className="h-1.5 w-full overflow-hidden rounded-xs bg-bark-800">
-                    <div className="h-full transition-[width] duration-100 ease-linear" style={{ width: `${progress}%`, background: rate < 20 ? "var(--color-ember-400)" : color }} />
-                </div>
-                <span className="text-[11px] text-cream-500">{text.clocks.furnace}</span>
+        <div className="flex flex-col gap-2 px-5 py-3">
+            <div className="grid grid-cols-[4rem_4.5rem_1fr] items-center gap-4">
+                <span className="flex items-center gap-2 text-sm font-semibold text-cream-50">
+                    <span className="size-2.5 rounded-xs" style={{ background: color }} />
+                    {lane.label}
+                </span>
+                <span className={cn("font-mono text-xs tabular", rate < 20 ? "text-ember-400" : "text-cream-500")}>{rate.toFixed(0)} TPS</span>
+                <span className={cn("text-right font-mono text-xs tabular", behind > 0 ? "text-ember-400" : "text-cream-500")}>
+                    {behind > 0 ? `-${behind}` : "0"} {text.clocks.ticks}
+                </span>
             </div>
-            <span className={cn("text-right font-mono text-xs tabular", behind > 0 ? "text-ember-400" : "text-cream-500")}>
-                {behind > 0 ? `-${behind}` : "0"} {text.clocks.ticks}
-            </span>
+            <div className="h-1.5 w-full overflow-hidden rounded-xs bg-bark-800">
+                <div className="h-full transition-[width] duration-100 ease-linear" style={{ width: `${progress}%`, background: rate < 20 ? "var(--color-ember-400)" : color }} />
+            </div>
         </div>
     );
 }
@@ -67,8 +66,8 @@ export default function ThreadClocks({ className }: { className?: string }) {
                     ))}
                 </div>
             </div>
-            <div className="flex items-center gap-4 border-t border-line px-3 py-2">
-                <DemoStat value={FURNACE_TICKS} unit={text.clocks.ticks} />
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-line px-3 py-2">
+                <DemoStat value={FURNACE_TICKS} unit={text.clocks.furnace} />
                 <span className="text-xs text-cream-500">{text.clocks.legend}</span>
             </div>
         </DemoFrame>

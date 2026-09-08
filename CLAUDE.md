@@ -31,7 +31,7 @@ Vite 8, React 19 sans compiler, Zustand, Tailwind 4, TypeScript, Biome, `@voxeli
 
 ## Direction artistique
 Les règles sont universelles, chaque écran les applique toutes. Les tokens vivent dans `globals.css`, en `@theme static` : chaque variable existe toujours, même lue en `var()` depuis un SVG ou un style inline. La palette Tailwind par défaut est désactivée.
-- **La grille**. Un seul conteneur, `frame`, bordé de deux lignes verticales. Sur l'accueil, les bandes hors du cadre sont hachurées en `hatched`, couleur `line`. Chaque section est une `row`, fermée par une ligne, avec une petite croix aux deux intersections. Des cellules côte à côte passent par `cells`. Aucune autre bordure de page.
+- **La grille**. Un seul conteneur, `frame`, bordé de deux lignes verticales. Les bandes hors du cadre sont hachurées en `hatched`, couleur `line`. Chaque section est une `row`, fermée par une ligne, avec une petite croix aux deux intersections. Des cellules côte à côte passent par `cells`. Aucune autre bordure de page.
 - **Les îlots**. Tout panneau, démo, tableau ou bloc de code est un `island` : bordure 1px `line`, rayon 2px, fond `bark-900`. Pas d'ombre, pas de dégradé.
 - **Les boutons**. Coins haut droit et bas gauche coupés en biseau par `bevel`, `corner-shape: bevel` sur un rayon `md`, avec repli sur le rayon 2px quand le navigateur ne connaît pas `corner-shape`.
 - **Les couleurs**. Fond `bark-950`, texte `cream-200`, titres `cream-50`, secondaire `cream-400`, discret `cream-500`. Accent `leaf-400`, or `honey-400` pour les avertissements, `ember-400` pour le retard. Les régions des démos prennent `region-1` à `region-6`, dans cet ordre.
