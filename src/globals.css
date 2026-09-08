@@ -370,6 +370,7 @@
 
     body {
         min-height: 100dvh;
+        overflow-x: clip;
         background-color: var(--color-bark-950);
         color: var(--color-cream-200);
         font-family: var(--font-sans);
