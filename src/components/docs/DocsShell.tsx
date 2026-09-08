@@ -100,7 +100,7 @@ export default function DocsShell({ slug }: { slug: DocSlug }) {
                     <Sidebar current={slug} />
                 </nav>
                 <article key={slug} className="min-w-0 px-6 py-12 sm:px-10 lg:px-14">
-                    <div className="mx-auto max-w-[44rem]">
+                    <div className="mx-auto max-w-176">
                         <h1 className="text-balance text-4xl font-bold tracking-display text-cream-50 sm:text-[2.75rem] sm:leading-[1.1]">{page.data.title}</h1>
                         <p className="mt-4 text-pretty text-lg leading-relaxed text-cream-400">{page.data.lead}</p>
                         <div className="mt-10">
@@ -111,7 +111,7 @@ export default function DocsShell({ slug }: { slug: DocSlug }) {
                 </article>
                 <aside className="hidden border-l border-line xl:block">
                     <div className="sticky top-14 max-h-[calc(100dvh-3.5rem)] overflow-y-auto px-5 py-10">
-                        <Toc items={headings(page.blocks)} />
+                        <Toc key={slug} items={headings(page.blocks)} />
                     </div>
                 </aside>
             </div>
