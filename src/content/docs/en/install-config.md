@@ -13,8 +13,8 @@ On first startup, Leafs writes `config/leafs.json` with the default values, and 
 
 | Key | Default | Meaning |
 | --- | --- | --- |
-| `region_threads` | `-1` | The number of region workers. `-1` takes all cores. From 1 to 1024. |
-| `chunk_threads` | `-1` | The number of chunk workers. `-1` takes half the cores, at least 1. From 1 to 1024. |
+| `region_threads` | `-1` | The number of region threads. `-1` takes all cores. From 1 to 1024. |
+| `chunk_threads` | `-1` | The number of chunk threads. `-1` takes half the cores, at least 1. From 1 to 1024. |
 | `section_size` | `2` | The number of chunks per side of a section. A power of two, from 2 to 256. The bigger the section, the bigger the region. |
 | `region_merge_distance` | `1` | The distance in sections below which two neighboring regions merge. From 1 to 8. |
 | `region_buffer_distance` | `1` | The thickness in sections of the crown a region owns without ticking it. From 1 to 8. |
@@ -32,7 +32,7 @@ On first startup, Leafs writes `config/leafs.json` with the default values, and 
 | --- | --- | --- |
 | `debug.watchdog_warn_seconds` | `15` | Past this delay, a stuck tick is logged with its thread's stack and the chunk it is waiting on. From 1 to 600. |
 | `debug.slow_task_warn_millis` | `50` | Past this delay, a thread that waited for a chunk is logged, and so is an abnormally long mailbox task, with its class. From 0 to 60000. |
-| `debug.per_region_logs` | `false` | Each worker takes the name of its region, `R#id dimension`, during its tick. Every log line then says which region wrote it. |
+| `debug.per_region_logs` | `false` | Each thread takes the name of its region, `R#id dimension`, during its tick. Every log line then says which region wrote it. |
 
 The forced shutdown follows `max-tick-time` from `server.properties`, like vanilla. Past this delay on a region, Leafs writes a crash report with all threads and then kills the JVM. `-1` disables it, and in singleplayer there is no forced shutdown.
 

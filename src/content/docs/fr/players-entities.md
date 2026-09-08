@@ -22,19 +22,3 @@ Pour les téléportations et les portails, la région d'origine fait le travail,
 :::note
 Les régions sont toujours séparées par au moins une section non simulée au-delà de la couronne. Une entité qui sort d'une région gèle dans cette zone. Si les joueurs sont assez proches, leurs régions fusionnent et il n'y a plus de zone gelée entre eux.
 :::
-
-## Dans le code
-
-### Le réseau
-
-Netty décode un paquet, et `PacketRouting.routeToPlayer` le range dans la `PlayerPacketQueue` du joueur. Les autres listeners, handshake, login, configuration, gardent le chemin vanilla. La file a un drapeau `claimed` : un seul thread à la fois est le thread des paquets d'un joueur. `drain` rend faux si un autre thread tient le joueur, et le tick de région passe au suivant. Ces cas sont comptés dans `/leafs metrics`.
-
-`RegionNetworkTick.drainOnRegion` vide la file au début du tick de région. `tickPlayerOnRegion` fait le tick complet du listener à la fin, l'envoi des chunks et le flush de la connexion. `tickListenerGlobally` est l'accroche de `Connection.tick` : un joueur couvert par une région vivante y est sauté, un joueur sans région y est tické par le thread serveur en tant qu'emprunteur.
-
-### Les entités
-
-`RegionEntities` est la photo prise au début du tick depuis les sections d'entités des chunks de la région. Elle a deux listes : les entités qui tickent, et toutes les entités accessibles pour le recensement des mobs. `forEach` saute une entité qui a changé de dimension depuis la photo.
-
-`EntityTeleports.route` regarde d'abord si le thread courant tient le chunk d'origine. Si oui, vanilla tourne tel quel. Sinon la téléportation entière devient un `DeferredWork` chez le propriétaire de l'origine, revalidé à l'arrivée. Le passage à la destination se fait par les primitives d'ajout et de retrait que la téléportation appelle elle-même.
-
-`RegionEntityPersistence` fait tourner l'arrivée, le déchargement et la sauvegarde des entités chez le propriétaire du chunk. `RegionEntityTracking` restreint la passe de tracking aux joueurs à portée de la boîte englobante de la région, plus ceux qui voient déjà une de ses entités pour qu'un départ les déconnecte.

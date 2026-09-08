@@ -22,24 +22,3 @@ Trois cas, et seulement trois.
 :::note{tone="warn"}
 Le troisième cas est le [compromis 4](/docs/trade-offs). Il ne se produit que quand on écrit chez un autre joueur pendant qu'il y est.
 :::
-
-## Dans le code
-
-`ChunkOwners` est le seul arbitre. `submit(x, z, work, task)` décide où une écriture s'exécute :
-
-1. Si le thread courant tient déjà le chunk, la tâche tourne en ligne, et l'appelant relit ce qu'il a écrit.
-2. Si une boîte aux lettres couvre le chunk, celle d'une région ou celle d'un chunk emprunté, la tâche y est postée.
-3. Sans propriétaire, un travail de chunk part au pool, et un travail de jeu fait prendre le chunk au thread appelant.
-4. Un worker du pool ne prend jamais : son travail de jeu part au thread serveur, parce qu'il pourrait attendre un chunk sous sa propre réservation.
-
-Deux natures de travail, `Work.CHUNK` et `Work.GAME`. Le travail de chunk, publier, démonter, sauvegarder, éclairer, n'attend jamais rien. Le travail de jeu, poser un bloc, téléporter, respawn, mettre à jour un voisin, peut charger un chunk et attendre.
-
-### Le premier écrivain prend
-
-`ChunkOwners.borrow(x, z)` fait un `putIfAbsent` d'une `RegionInbox` sur la clé du chunk. Le premier thread qui insère gagne et reçoit la boîte. Les autres trouvent la boîte au tour suivant et y postent. `release` rend le chunk et redistribue ce qui restait dans la boîte.
-
-### Le contrat de lecture
-
-`RegionChunkAccess` porte le contrat : tout thread lit ce qui est publié. Un chunk requis absent est attendu par le thread qui le demande, `ChunkWait`, qui exécute pendant ce temps ce qu'il possède, sa boîte pour une région, sa file pour le thread serveur. `LevelChunks.of(level)` est le composite d'une dimension, le seul que les mixins connaissent.
-
-Le passage d'un chunk à `FULL` est coupé en deux dans `FullStep` : le pool construit le `LevelChunk`, le propriétaire le publie dans le monde vivant. C'est à cette publication qu'un chunk devient celui d'une région.

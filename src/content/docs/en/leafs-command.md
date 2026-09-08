@@ -5,7 +5,7 @@ lead: A single command to see regions, timings, counters and memory. Reserved fo
 
 ## Regions
 
-`/leafs regions` shows the number of workers, the server thread's TPS, then one line per dimension: regions, chunks, entities, the serial part's TPS and the slowest region. The last line says which region you are in.
+`/leafs regions` shows the number of threads, the server thread's TPS, then one line per dimension: regions, chunks, entities, the serial part's TPS and the slowest region. The last line says which region you are in.
 
 `/leafs regions <dimension>` details a dimension: live and dead sections, regions created, destroyed, merged and split, then one line per region with its id, its state, its TPS, its tick duration, its chunks and its entities.
 

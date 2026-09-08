@@ -1,6 +1,6 @@
 ---
 title: Commandes et datapacks
-lead: Toutes les commandes tournent sur le thread serveur, peu importe qui les lance. Une commande coûte exactement son coût vanilla.
+lead: Toutes les commandes tournent sur le thread serveur, peu importe qui les lance. Une commande coûte exactement le même coût qu'elle à en vanilla.
 ---
 
 ## Une commande emprunte ce qu'elle touche
@@ -21,9 +21,3 @@ Un command block, ou un minecart à command block, déclenché par la redstone s
 :::note{tone="warn"}
 Il est recommandé de limiter les commandes sur un gros serveur. Le support existe et coûte vanilla, mais tout ce qui tourne sur le thread serveur ne profite pas des coeurs supplémentaires.
 :::
-
-## Dans le code
-
-`CommandEngine` accroche `Commands.executeCommandInContext`, le point de passage de toute commande et de toute fonction. Hors du thread serveur, l'exécution entière est postée dans `GlobalScheduler` et tourne au tick suivant. Sur le thread serveur, elle tourne comme une tête : un `RegionBorrow` qui prend d'abord la région de l'entité source, puis chaque région ou chunk sans région au premier contact, et rend tout à la fin.
-
-`runCommandBlock` prend le chunk du command block pour toute la durée, écritures de sortie comprises. `runBorrowingAll` prend toutes les régions de toutes les dimensions d'abord : c'est le chemin des rechargements de datapacks et du flush de `save-all`.

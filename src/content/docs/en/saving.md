@@ -10,7 +10,7 @@ lead: The autosave is done by regions, each its own. A flush or a shutdown freez
 
 ## The chunk goes out as bytes
 
-A chunk reaches the disk thread already encoded. The thread saving it copies the chunk's state, a chunk worker encodes and compresses it, and vanilla's disk thread only writes bytes to the region file from then on. A reader requesting a chunk on its way to disk is served from the copy, without waiting.
+A chunk reaches the disk thread already encoded. The thread saving it copies the chunk's state, a chunk thread encodes and compresses it, and vanilla's disk thread only writes bytes to the region file from then on. A reader requesting a chunk on its way to disk is served from the copy, without waiting.
 
 On first startup, Leafs sets `sync-chunk-writes` to `false` in `server.properties`. The admin can set it back to `true`, Leafs does not touch it again after that.
 

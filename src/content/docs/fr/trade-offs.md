@@ -13,10 +13,10 @@ Ces compromis sont un peu des fonctionnalités. Ils sont même bénéfiques pour
 
 ## Vrais compromis
 
-1. Écrire un bloc là où une autre région est en train de ticker arrive au tick suivant. Le bloc est bien posé, mais le relire tout de suite rend l'ancien. Partout ailleurs, y compris dans une dimension où personne ne se trouve, l'écriture est finie quand l'appel rend la main, comme en vanilla. Une région ne tick que là où un joueur est simulé, donc ce cas demande d'écrire chez un autre joueur pendant qu'il y est.
-2. Les téléportations et les portails arrivent au plus tard au tick suivant de la région cible.
-3. `END_SERVER_TICK`. Les mods qui font leur travail une fois par tick via la Fabric API tournent toujours vingt fois par seconde, mais le monde autour n'a pas forcément avancé d'un tick entre deux appels. Une région à 10 TPS a fait un tick sur deux.
-4. Un command block, ou un minecart à command block, déclenché par la redstone s'exécute un tick plus tard qu'en vanilla. La redstone tourne sur la région et la commande sur le thread serveur. Une commande tapée dans le chat ou lancée par un datapack n'a pas ce retard.
+4. Écrire un bloc là où une autre région est en train de ticker arrive au tick suivant. Le bloc est bien posé, mais le relire tout de suite rend l'ancien. Partout ailleurs, y compris dans une dimension où personne ne se trouve, l'écriture est finie quand l'appel rend la main, comme en vanilla. Une région ne tick que là où un joueur est simulé, donc ce cas demande d'écrire chez un autre joueur pendant qu'il y est.
+5. Les téléportations et les portails arrivent au plus tard au tick suivant de la région cible.
+6. `END_SERVER_TICK`. Les mods qui font leur travail une fois par tick via la Fabric API tournent toujours vingt fois par seconde, mais le monde autour n'a pas forcément avancé d'un tick entre deux appels. Une région à 10 TPS a fait un tick sur deux.
+7. Un command block, ou un minecart à command block, déclenché par la redstone s'exécute un tick plus tard qu'en vanilla. La redstone tourne sur la région et la commande sur le thread serveur. Une commande tapée dans le chat ou lancée par un datapack n'a pas ce retard.
 
 :::note
 La numérotation suit celle du dépôt : les compromis 1 à 3 sont bénéfiques, les compromis 4 à 7 sont les vrais. Le reste de la doc y renvoie par ces numéros.

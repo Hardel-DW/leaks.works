@@ -43,8 +43,8 @@ export const fr = {
     },
     pool: {
         title: "Une région est une tâche",
-        text: "Les régions attendent dans une seule file, triée par prochain tick. Un worker libre prend la première. Une région lourde ne bloque que ses propres joueurs.",
-        threads: "Workers",
+        text: "Les régions attendent dans une seule file, triée par prochain tick. Un thread libre prend la première. Une région lourde ne bloque que ses propres joueurs.",
+        threads: "Threads",
         regions: "Régions",
         budget: "50 ms",
         late: "en retard"

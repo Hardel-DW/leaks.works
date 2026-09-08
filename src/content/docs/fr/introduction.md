@@ -21,15 +21,12 @@ Lithium, Ferrite et Mapple sont compatibles. Leafs désactive lui-même les quel
 
 ## Comment lire cette documentation
 
-Chaque chapitre se lit à deux étages. D'abord l'explication simple, pour comprendre le modèle sans avoir ouvert le code. Ensuite une section **Dans le code**, avec les vraies classes du dépôt, pour un développeur qui veut savoir où regarder.
+Cette documentations est vulgariser au plus simples possible et étant accéssibles a tous, certaines parties sont néanmoins un peu plus détaillés et néccéssites plus de connaissances dans le jeu.
+Voici les chapitres que je vous conseilles.
 
 1. [Minecraft, un seul thread](/docs/vanilla). Pourquoi le serveur vanilla ne profite pas de vos coeurs.
 2. [Les régions](/docs/regions). Comment le monde se découpe autour des joueurs.
-3. [Les threads](/docs/threads). Le thread serveur, les workers de régions et les workers de chunks.
+3. [Les threads](/docs/threads). Le thread serveur, les threads de régions et les threads de chunks.
 4. [Lecture et écriture](/docs/read-write). Qui a le droit d'écrire où.
 5. [Courrier et emprunt](/docs/mail-borrow). Les deux seuls outils de coordination.
 6. [Compromis](/docs/trade-offs). Chaque écart avec vanilla, et pourquoi il existe.
-
-:::note
-Tout ce qui est écrit ici se retrouve dans le code du mod. Une affirmation qu'on ne peut pas retrouver dans le code ne s'écrit pas.
-:::

@@ -31,11 +31,3 @@ Leafs ne rajoute aucune optimisation, ni CPU, ni RAM, ni ramasse-miettes. Toute 
 ## Debug et métriques
 
 Leafs crée les métriques et fournit `/leafs` pour les lire. `Leafs Debug and Metrics` est un mod additionnel, indépendant, qui affiche ces données côté client dans F3 et permet l'analyse de la RAM.
-
-## Dans le code
-
-`FabricTickEvents` encadre `START_SERVER_TICK` et `END_SERVER_TICK` d'un emprunt, seulement quand l'évènement a des abonnés, ce que `FabricEventAccess` révèle. `ServerTickEventsShim` pose l'accroche autour des appels vanilla qui entourent chaque émission. Ces emprunts sont comptés et visibles dans `/leafs metrics`.
-
-`SharedStateMonitor` sérialise l'état global du serveur, scoreboard, saved data, cartes, séquences aléatoires, entre les workers et le thread serveur. `LockedRandomSource` protège une séquence partagée sur le même moniteur que sa sauvegarde. `ConcurrentWaypointManager` est le gestionnaire de la locator bar sans son verrou, une ligne par récepteur, et il ne parcourt rien quand la règle `locator_bar` est éteinte.
-
-Dans `fabric.mod.json`, `breaks` déclare C2ME, Moonrise et VMP, et `lithium:options` éteint les mixins de Lithium qui toucheraient au moteur de chunks, aux palettes et aux ticks aléatoires. Quand une région crashe, `ModAttribution` retrouve le mod d'une trame de pile pour la ligne du mod suspect du rapport.

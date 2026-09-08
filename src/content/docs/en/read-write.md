@@ -30,7 +30,7 @@ The third case is [trade-off 4](/docs/trade-offs). It only happens when writing 
 1. If the current thread already holds the chunk, the task runs inline, and the caller reads back what it wrote.
 2. If an inbox covers the chunk, a region's or a borrowed chunk's, the task is posted there.
 3. With no owner, a chunk task goes to the pool, and a game task makes the calling thread take the chunk.
-4. A pool worker never takes: its game task goes to the server thread, because it could end up waiting on a chunk under its own reservation.
+4. A pool thread never takes: its game task goes to the server thread, because it could end up waiting on a chunk under its own reservation.
 
 Two kinds of work, `Work.CHUNK` and `Work.GAME`. Chunk work, publish, tear down, save, light, never waits on anything. Game work, placing a block, teleporting, respawning, updating a neighbor, can load a chunk and wait.
 

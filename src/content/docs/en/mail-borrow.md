@@ -18,7 +18,7 @@ A region serves its inbox with whatever the period leaves it, and at least a ten
 
 Borrowing is mostly used by commands. The server thread targets an entity or a chunk, and that borrows their region. It then does the work itself, in the same order as vanilla, and returns everything at the end.
 
-A borrowed region does not tick during that time, as if the server thread were its worker. It is short: a connection takes less than a millisecond.
+A borrowed region does not tick during that time, as if the server thread ticked it itself. It is short: a connection takes less than a millisecond.
 
 ## In the code
 

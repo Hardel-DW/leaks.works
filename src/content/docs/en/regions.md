@@ -36,7 +36,7 @@ It then looks for neighboring regions within a radius of `region_merge_distance`
 | State | Meaning |
 | --- | --- |
 | `READY` | Alive and schedulable. This is the starting state. |
-| `TICKING` | A worker is ticking it. It can still gain sections, never lose them. |
+| `TICKING` | A thread is ticking it. It can still gain sections, never lose them. |
 | `TRANSIENT` | Alive but promised to a merge whose target is ticking. Never scheduled. |
 | `DEAD` | Merged or split. The object is no longer used. |
 

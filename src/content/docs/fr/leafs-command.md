@@ -5,7 +5,7 @@ lead: Une seule commande pour voir les régions, les timings, les compteurs et l
 
 ## Les régions
 
-`/leafs regions` affiche le nombre de workers, le TPS du thread serveur, puis une ligne par dimension : régions, chunks, entités, le TPS de la partie sérielle et la région la plus lente. La dernière ligne dit dans quelle région vous êtes.
+`/leafs regions` affiche le nombre de threads, le TPS du thread serveur, puis une ligne par dimension : régions, chunks, entités, le TPS de la partie sérielle et la région la plus lente. La dernière ligne dit dans quelle région vous êtes.
 
 `/leafs regions <dimension>` détaille une dimension : sections vivantes et mortes, régions créées, détruites, fusionnées et scindées, puis une ligne par région avec son id, son état, son TPS, sa durée de tick, ses chunks et ses entités.
 
@@ -30,7 +30,3 @@ lead: Une seule commande pour voir les régions, les timings, les compteurs et l
 `/leafs config [clé] [valeur]` affiche toutes les clés réglables, ou une seule, ou en réécrit une dans le fichier. La nouvelle valeur prend effet au prochain démarrage.
 
 `/leafs crash <dimension> <region>` fait crasher une région, pour vérifier que le crash report isolé fonctionne. La région écrit son rapport dans `crash-reports/region-crash-<date>.txt` avec son id, sa dimension, son tick, ses chunks, ses entités, le mod suspect et la pile.
-
-## Dans le code
-
-Le dossier `debug/` porte une classe par sous-commande. `TimingsCommand` moyenne sur `AVERAGE_WINDOW_TICKS`, cent ticks, et lit le TPS dans `StageTimings`, une fenêtre de `WINDOW_NANOS`, cinq secondes. `MetricsCommand` lit `ServerMetrics`, dont chaque compteur est un `MinuteCounter` de soixante seaux d'une seconde. `RegionCrashReport` et `RegionCrashWriter` écrivent le rapport d'une région, et `ModAttribution` retrouve le mod d'une trame de pile par les chemins du loader.

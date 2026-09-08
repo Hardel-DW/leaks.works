@@ -5,10 +5,9 @@ export const LOCALES = ["en", "fr"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const NAV = [
-    { group: "start", slugs: ["introduction", "vanilla"] },
+    { group: "start", slugs: ["introduction", "vanilla", "methodology"] },
     { group: "model", slugs: ["regions", "threads", "read-write", "mail-borrow", "players-entities", "saving"] },
-    { group: "use", slugs: ["install-config", "leafs-command", "commands-datapacks", "mod-compatibility", "trade-offs", "faq"] },
-    { group: "project", slugs: ["methodology", "code-map"] }
+    { group: "use", slugs: ["install-config", "leafs-command", "commands-datapacks", "mod-compatibility", "trade-offs", "faq"] }
 ] as const;
 
 export type DocGroup = (typeof NAV)[number]["group"];

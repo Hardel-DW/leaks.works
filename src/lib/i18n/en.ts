@@ -45,8 +45,8 @@ export const en: Text = {
     },
     pool: {
         title: "A region is a task",
-        text: "Regions wait in a single queue, sorted by next tick. A free worker takes the first one. A heavy region only slows its own players.",
-        threads: "Workers",
+        text: "Regions wait in a single queue, sorted by next tick. A free thread takes the first one. A heavy region only slows its own players.",
+        threads: "Threads",
         regions: "Regions",
         budget: "50 ms",
         late: "late"

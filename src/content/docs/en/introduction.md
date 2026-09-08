@@ -25,7 +25,7 @@ Each chapter reads on two levels. First the simple explanation, to understand th
 
 1. [Minecraft, a single thread](/docs/vanilla). Why the vanilla server does not benefit from your cores.
 2. [Regions](/docs/regions). How the world splits around players.
-3. [Threads](/docs/threads). The server thread, the region workers and the chunk workers.
+3. [Threads](/docs/threads). The server thread, the region threads and the chunk threads.
 4. [Read and write](/docs/read-write). Who has the right to write where.
 5. [Mail and borrowing](/docs/mail-borrow). The only two coordination tools.
 6. [Trade-offs](/docs/trade-offs). Every departure from vanilla, and why it exists.

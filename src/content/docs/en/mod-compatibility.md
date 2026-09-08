@@ -36,6 +36,6 @@ Leafs creates the metrics and provides `/leafs` to read them. `Leafs Debug and M
 
 `FabricTickEvents` wraps `START_SERVER_TICK` and `END_SERVER_TICK` with a borrow, only when the event has subscribers, which `FabricEventAccess` reveals. `ServerTickEventsShim` places the hook around the vanilla calls that surround each emission. These borrows are counted and visible in `/leafs metrics`.
 
-`SharedStateMonitor` serializes global server state, scoreboard, saved data, maps, random sequences, between the workers and the server thread. `LockedRandomSource` protects a shared sequence on the same monitor as its save. `ConcurrentWaypointManager` is the locator bar's manager without its lock, one line per receiver, and it walks nothing when the `locator_bar` rule is off.
+`SharedStateMonitor` serializes global server state, scoreboard, saved data, maps, random sequences, between the other threads and the server thread. `LockedRandomSource` protects a shared sequence on the same monitor as its save. `ConcurrentWaypointManager` is the locator bar's manager without its lock, one line per receiver, and it walks nothing when the `locator_bar` rule is off.
 
 In `fabric.mod.json`, `breaks` declares C2ME, Moonrise and VMP, and `lithium:options` turns off the Lithium mixins that would touch the chunk engine, palettes and random ticks. When a region crashes, `ModAttribution` finds the mod for a stack frame for the suspect mod line of the report.
