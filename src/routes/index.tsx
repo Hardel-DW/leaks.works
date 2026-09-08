@@ -23,7 +23,7 @@ function Home() {
                 <section className="row grid min-h-[90dvh] gap-12 overflow-hidden px-6 py-20 md:grid-cols-[45fr_55fr] md:items-center lg:gap-16 lg:px-12">
                     <RegionBackdrop />
                     <div className="relative flex flex-col items-start gap-6">
-                        <p className="label rise flex items-center gap-3 px-4 py-2 island " style={delay(0)}>
+                        <p className="label rise flex items-center gap-3 px-4 py-2 island" style={delay(0)}>
                             <img src="/Fabric.png" alt="Fabric MC" width={24} height={24} className="size-6 pixelated" />
                             <div className="text-cream-400">{text.hero.eyebrow}</div>
                         </p>

@@ -23,10 +23,10 @@ function Sidebar({ current }: { current: DocSlug }) {
     const text = useText();
     const docs = docsFor(useLocale());
     return (
-        <nav className="flex flex-col gap-7">
+        <nav className="flex flex-col gap-8">
             {NAV.map((group) => (
-                <div key={group.group} className="flex flex-col gap-1">
-                    <span className="label mb-1 px-3">{text.docs.groups[group.group]}</span>
+                <div key={group.group} className="flex flex-col">
+                    <span className="mb-1 px-3 font-semibold">{text.docs.groups[group.group]}</span>
                     {group.slugs.map((slug) => (
                         <Link
                             key={slug}
