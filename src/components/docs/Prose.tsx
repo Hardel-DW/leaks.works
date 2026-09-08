@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import RegionGrid from "@/components/demo/RegionGrid";
 import ThreadClocks from "@/components/demo/ThreadClocks";
 import WorkerPool from "@/components/demo/WorkerPool";
+import { type Kind, tokenize } from "@/lib/json";
 import { Link } from "@/lib/router";
 import { cn, slugify } from "@/lib/utils";
 
@@ -15,11 +16,21 @@ function Anchor({ href, children }: { href: string; children: ReactNode }) {
     );
 }
 
-function Code({ title, code }: { title?: string; code: string }) {
+const KIND_COLORS: Record<Kind, string> = { key: "text-leaf-300", string: "text-honey-300", number: "text-region-2", keyword: "text-ember-400", plain: "text-cream-500" };
+
+function Json({ code }: { code: string }) {
+    return tokenize(code).map((token) => (
+        <span key={token.at} className={KIND_COLORS[token.kind]}>
+            {token.text}
+        </span>
+    ));
+}
+
+function Code({ title, lang, code }: { title?: string; lang?: string; code: string }) {
     return (
         <div className="island overflow-hidden">
             {title && <div className="border-b border-line px-4 py-2 font-mono text-xs text-cream-500">{title}</div>}
-            <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-cream-200">{code}</pre>
+            <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-relaxed text-cream-200">{lang === "json" ? <Json code={code} /> : code}</pre>
         </div>
     );
 }
@@ -32,7 +43,7 @@ const components: Components = {
     h2: ({ text, children }) => <h2 id={slugify(text)}>{children}</h2>,
     h3: ({ text, children }) => <h3 id={slugify(text)}>{children}</h3>,
     a: Anchor,
-    pre: ({ meta, code }) => <Code title={meta.title} code={code} />,
+    pre: ({ meta, lang, code }) => <Code title={meta.title} lang={lang} code={code} />,
     table: ({ children }) => (
         <div className="island overflow-x-auto">
             <table>{children}</table>
