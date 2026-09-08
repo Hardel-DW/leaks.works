@@ -44,7 +44,16 @@ The forced shutdown follows `max-tick-time` from `server.properties`, like vanil
     "region_merge_distance": 1,
     "region_buffer_distance": 1,
     "gameplay": {
-        "mob_cap_scope": "level"
+        "mob_cap_scope": "level",
+        "mob_cap": {
+            "monster": 70,
+            "creature": 10,
+            "ambient": 15,
+            "axolotls": 5,
+            "underground_water_creature": 5,
+            "water_creature": 5,
+            "water_ambient": 20
+        }
     },
     "debug": {
         "watchdog_warn_seconds": 15,
