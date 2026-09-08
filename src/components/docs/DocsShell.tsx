@@ -1,5 +1,4 @@
 import { type BlockToken, plainText } from "@voxelio/markdown";
-import type React from "react";
 import Prose from "@/components/docs/Prose";
 import Toc, { type TocItem } from "@/components/docs/Toc";
 import Icon from "@/components/ui/Icon";
@@ -8,7 +7,7 @@ import { docsFor } from "@/lib/content/load";
 import { useText } from "@/lib/i18n";
 import { Link } from "@/lib/router";
 import { useLocale } from "@/lib/store/locale";
-import { cn, slugify } from "@/lib/utils";
+import { closeOnLink, cn, slugify } from "@/lib/utils";
 
 function headings(blocks: BlockToken[]): TocItem[] {
     const items: TocItem[] = [];
@@ -74,10 +73,6 @@ function Pager({ current }: { current: DocSlug }) {
         </div>
     );
 }
-
-const closeOnLink = (event: React.MouseEvent<HTMLElement>) => {
-    if (event.target instanceof Element && event.target.closest("a")) event.currentTarget.hidePopover();
-};
 
 export default function DocsShell({ slug }: { slug: DocSlug }) {
     const text = useText();

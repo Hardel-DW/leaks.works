@@ -4,7 +4,7 @@ import { useText } from "@/lib/i18n";
 import { LINKS } from "@/lib/links";
 import { Link, useLocation } from "@/lib/router";
 import { useLocaleStore } from "@/lib/store/locale";
-import { cn } from "@/lib/utils";
+import { closeOnLink, cn } from "@/lib/utils";
 
 const SOCIALS = [
     { name: "discord", href: LINKS.discord },
@@ -82,7 +82,7 @@ export default function Header() {
                     </button>
                 </div>
             </div>
-            <nav id="mobile-nav" popover="auto" className="island fixed inset-x-4 top-16 m-0 w-auto flex-col gap-1 p-2 text-sm [&:popover-open]:flex sm:hidden">
+            <nav id="mobile-nav" popover="auto" onClick={closeOnLink} className="island fixed inset-x-4 top-16 m-0 w-auto flex-col gap-1 p-2 text-sm [&:popover-open]:flex sm:hidden">
                 <NavLink to="/docs">{text.nav.docs}</NavLink>
                 <NavLink to="/patchnote">{text.nav.patchnote}</NavLink>
                 <a href={LINKS.modrinth} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-3 py-1.5 font-medium text-leaf-300">
