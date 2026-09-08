@@ -1,6 +1,6 @@
 import Leaf from "@/components/ui/Leaf";
 import { useText } from "@/lib/i18n";
-import { LINKS } from "@/lib/links";
+import { DEPENDENCIES, LINKS } from "@/lib/links";
 import { Link } from "@/lib/router";
 
 export default function Footer() {
@@ -13,7 +13,9 @@ export default function Footer() {
                     <span>{text.footer.made}</span>
                 </div>
                 <span className="hidden text-cream-700 sm:block">·</span>
-                <span>{text.footer.requires}</span>
+                <span>
+                    {text.footer.requires} <Dependencies />
+                </span>
                 <nav className="flex gap-4 sm:ml-auto">
                     <Link to="/docs" className="transition-colors hover:text-cream-50">
                         {text.nav.docs}
@@ -31,4 +33,14 @@ export default function Footer() {
             </div>
         </footer>
     );
+}
+
+function Dependencies() {
+    const text = useText();
+    const links = DEPENDENCIES.map((mod) => (
+        <a key={mod.name} href={mod.url} target="_blank" rel="noreferrer" className="transition-colors text-ember-400 hover:text-honey-300">
+            {mod.name}
+        </a>
+    ));
+    return links.flatMap((link, index) => (index === 0 ? [link] : [index === links.length - 1 ? ` ${text.footer.and} ` : ", ", link]));
 }

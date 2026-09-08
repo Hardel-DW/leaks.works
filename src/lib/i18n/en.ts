@@ -54,7 +54,7 @@ export const en: Text = {
     pillars: [
         { title: "Zero features", text: "Leafs adds multithreading and nothing else. No API, no gameplay, no hidden optimisation." },
         { title: "Mods see nothing", text: "Minecraft's primitives do what they always did. Leafs adapts to mods, never the other way around." },
-        { title: "Commands cost vanilla", text: "Every command runs on the server thread and borrows the regions it touches." }
+        { title: "Same command cost as vanilla.", text: "Every command runs on the server thread and borrows the regions it touches." }
     ],
     cta: {
         title: "Read how it works",
@@ -78,6 +78,7 @@ export const en: Text = {
     },
     footer: {
         made: "A mod by Hardel.",
-        requires: "Requires Fabric API, Mapple, ScalableLux and FastNoise."
+        requires: "Requires",
+        and: "and"
     }
 };
