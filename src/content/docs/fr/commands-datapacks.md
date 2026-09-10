@@ -1,6 +1,6 @@
 ---
 title: Commandes et datapacks
-lead: Toutes les commandes tournent sur le thread serveur, peu importe qui les lance. Une commande coûte exactement le même coût qu'elle à en vanilla.
+lead: Toutes les commandes tournent sur le thread serveur, peu importe qui les lance. Une commande coûte exactement le même coût qu'elle a en vanilla.
 ---
 
 ## Une commande emprunte ce qu'elle touche
@@ -16,8 +16,8 @@ Un datapack coûte donc exactement ce qu'il coûte en vanilla. Un datapack lourd
 
 ## Les command blocks
 
-Un command block, ou un minecart à command block, déclenché par la redstone s'exécute un tick plus tard qu'en vanilla. La redstone tourne sur la région et la commande sur le thread serveur, et le passage de l'un à l'autre attend le tick suivant. Une commande tapée dans le chat ou lancée par un datapack n'a pas ce retard. C'est le [compromis 7](/docs/trade-offs).
+Un command block, ou un minecart à command block, déclenché par la redstone s'exécute un tick plus tard qu'en vanilla. La redstone tourne sur la région et la commande sur le thread serveur, et le passage de l'un à l'autre attend le tick suivant. Une commande tapée dans le chat ou lancée par un datapack n'a pas ce retard. Voir les [Compromis](/docs/trade-offs).
 
 :::note{tone="warn"}
-Il est recommandé de limiter les commandes sur un gros serveur. Le support existe et coûte vanilla, mais tout ce qui tourne sur le thread serveur ne profite pas des coeurs supplémentaires.
+Il est recommandé de limiter les commandes sur un gros serveur. Le support existe et coûte vanilla, mais tout ce qui tourne sur le thread serveur ne profite pas des cœurs supplémentaires.
 :::

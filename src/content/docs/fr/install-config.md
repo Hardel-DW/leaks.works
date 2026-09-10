@@ -3,9 +3,7 @@ title: Installation et configuration
 lead: Leafs crée son fichier de configuration au premier démarrage. Les valeurs par défaut conviennent à la plupart des serveurs.
 ---
 
-## Installation
-
-Déposez Leafs dans le dossier `mods` d'un serveur Fabric 26.2 sous Java 25, avec Fabric API, Mapple, ScalableLux et FastNoise. Sans l'une de ces dépendances, le serveur refuse de démarrer et le dit clairement.
+## Premier démarrage
 
 Au premier démarrage, Leafs écrit `config/leafs.json` avec les valeurs par défaut, et met `sync-chunk-writes` à `false` dans `server.properties`. L'admin peut le remettre à `true`, Leafs n'y touche plus ensuite.
 
@@ -13,8 +11,8 @@ Au premier démarrage, Leafs écrit `config/leafs.json` avec les valeurs par dé
 
 | Clé | Défaut | Sens |
 | --- | --- | --- |
-| `region_threads` | `-1` | Le nombre de threads de régions. `-1` prend tous les coeurs. De 1 à 1024. |
-| `chunk_threads` | `-1` | Le nombre de threads de chunks. `-1` prend la moitié des coeurs, au moins 1. De 1 à 1024. |
+| `region_threads` | `-1` | Le nombre de threads de régions. `-1` prend tous les cœurs. De 1 à 1024. |
+| `chunk_threads` | `-1` | Le nombre de threads de chunks. `-1` prend la moitié des cœurs, au moins 1. De 1 à 1024. |
 | `section_size` | `2` | Le nombre de chunks de côté d'une section. Une puissance de deux, de 2 à 256. Plus la section est grande, plus la région est grande. |
 | `region_merge_distance` | `1` | La distance en sections sous laquelle deux régions voisines fusionnent. De 1 à 8. |
 | `region_buffer_distance` | `1` | L'épaisseur en sections de la couronne qu'une région possède sans la ticker. De 1 à 8. |

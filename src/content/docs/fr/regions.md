@@ -17,4 +17,4 @@ Deux joueurs éloignés sont chacun dans leur région. Les régions bougent avec
 
 ## Ce qu'une région possède
 
-Une région possède ses chunks, ses entités, ses joueurs, ses block entities, les paquets réseau de ses joueurs et son propre générateur aléatoire. Pendant son tick, aucun thread étrangers ne peut écrire dans la région. Lire chez une autre région reste libre pour tout le monde.
+Une région possède ses chunks, ses entités, ses joueurs, ses block entities, les paquets réseau de ses joueurs et son propre générateur aléatoire. Pendant son tick, aucun thread étranger ne peut écrire dans la région. Lire chez une autre région reste libre pour tout le monde.

@@ -42,7 +42,6 @@ Ces threads tournent à la priorité système la plus basse. Quand la machine n'
 - Une zone très dense, avec un TPS bas, n'affecte pas la vitesse de génération du monde. Un joueur qui s'en éloigne continue d'avancer fluidement.
 - Quand un thread a besoin d'un chunk pas encore là, il le demande au pool, qui le fait passer devant tout le reste, et il attend. Le chunk reçu reste chargé jusqu'à la fin du tick ou de la commande, comme en vanilla.
 
-
 ## L'ordre du thread serveur
 
 À chaque tick, le thread serveur fait dans l'ordre :
@@ -58,6 +57,6 @@ Ces threads tournent à la priorité système la plus basse. Quand la machine n'
 
 **Note :**
 - Les points 2, 7 et 8 sont des coûts fixes, identiques quel que soit le serveur.
-- Les points 5 et 6 varient avec le nombre de joueurs, mais si peu que d'un serveur à l'autre le coût est pratiquement identique. 
-- Les points 1 et 4 sont liés aux commandes, donc évitables. 
+- Les points 5 et 6 varient avec le nombre de joueurs, mais si peu que d'un serveur à l'autre le coût est pratiquement identique.
+- Les points 1 et 4 sont liés aux commandes, donc évitables.
 - Le point 3 a une quinzaine d'étapes, une bonne partie à zéro parce que déplacées sur les régions.
