@@ -3,21 +3,10 @@ title: Trade-offs
 lead: Every deliberate departure from vanilla is listed here, with its explanation. If it is here, it is because we had no choice.
 ---
 
-## Beneficial trade-offs
-
-These trade-offs are almost features. They are even beneficial for the game: less cheating, or more gameplay possibilities. We avoid removing them.
-
-1. Each region has its own randomness. No visible effect in game.
-2. Each region lives at its own TPS. A furnace can be slower from one region to another.
-3. Every command runs on the server thread, which borrows the regions it touches.
-
-## Real trade-offs
-
-1. Writing a block where another region is currently ticking happens on the next tick. The block is indeed placed, but reading it right back returns the old one. Everywhere else, including in a dimension where no one is present, the write is finished when the call returns, like vanilla. A region only ticks where a player is simulated, so this case requires writing at another player's location while it is happening.
-2. Teleports and portals arrive at the target region's next tick at the latest.
-3. `END_SERVER_TICK`. Mods that do their work once per tick through the Fabric API still run twenty times per second, but the world around it has not necessarily advanced by one tick between two calls. A region at 10 TPS has ticked every other tick.
-4. A command block, or a minecart with a command block, triggered by redstone runs one tick later than in vanilla. The redstone runs on the region and the command on the server thread. A command typed in chat or run by a datapack has no such delay.
-
-:::note
-The numbering follows the repository's own: trade-offs 1 to 3 are beneficial, trade-offs 4 to 7 are the real ones. The rest of the docs refer to them by these numbers.
-:::
+## Trade-offs
+1. Each region has its own randomness. No visible effect in game in theory, and it indirectly limits cheating.
+2. Every command runs on the server thread, which borrows the regions it touches.
+3. Writing a block where another region is doing its tick will be 1 tick late. The block is placed, but reading it back will return the old block.
+4. Teleportations and portals land at the latest on the next tick of the target region.
+5. Mods that use `END_SERVER_TICK` through the Fabric API still run on the server thread. When that touches a chunk or an entity, the server thread borrows its region. Since regions do not necessarily run at 20 TPS, you cannot check that the previous tick ran perfectly, you have to develop in an imperative way.
+6. A command block, or a command block minecart, triggered by redstone runs one tick later than in vanilla. The redstone runs on the region and the command on the server thread. A command typed in chat or run by a datapack has no such delay.

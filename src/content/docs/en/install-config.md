@@ -1,13 +1,11 @@
 ---
 title: Installation and configuration
-lead: Leafs writes its configuration file on first startup. The defaults suit most servers.
+lead: Leafs creates its configuration file on first startup. The default values suit most servers.
 ---
 
-## Installation
+## First startup
 
-Drop Leafs into the `mods` folder of a Fabric 26.2 server running Java 25, together with Fabric API, Mapple, ScalableLux and FastNoise. Without one of these dependencies, the server refuses to start and says so clearly.
-
-On first startup, Leafs writes `config/leafs.json` with the default values, and sets `sync-chunk-writes` to `false` in `server.properties`. The admin can set it back to `true`, and Leafs never touches it again after that.
+On first startup, Leafs writes `config/leafs.json` with the default values, and sets `sync-chunk-writes` to `false` in `server.properties`. The admin can set it back to `true`, Leafs never touches it again after that.
 
 ## Threads and regions
 
@@ -23,7 +21,7 @@ On first startup, Leafs writes `config/leafs.json` with the default values, and 
 
 | Key | Default | Meaning |
 | --- | --- | --- |
-| `gameplay.mob_cap_scope` | `level` | With `level`, the mob cap is computed over the whole dimension, like vanilla. With `region`, each region has its own mob cap. |
+| `gameplay.mob_cap_scope` | `level` | With `level`, the mob cap is computed over the whole dimension like in vanilla. With `region`, each region has its own mob cap. |
 | `gameplay.mob_cap` | vanilla | The number of entities that can spawn per category: `monster`, `creature`, `ambient` and the others. From 0 to 100000. |
 
 ## Debug
@@ -31,10 +29,10 @@ On first startup, Leafs writes `config/leafs.json` with the default values, and 
 | Key | Default | Meaning |
 | --- | --- | --- |
 | `debug.watchdog_warn_seconds` | `15` | Past this delay, a stuck tick is logged with its thread's stack and the chunk it is waiting on. From 1 to 600. |
-| `debug.slow_task_warn_millis` | `50` | Past this delay, a thread that waited for a chunk is logged, and so is an abnormally long mailbox task, with its class. From 0 to 60000. |
+| `debug.slow_task_warn_millis` | `50` | Past this delay, a thread that waited for a chunk is logged, and so is an abnormally long inbox task, with its class. From 0 to 60000. |
 | `debug.per_region_logs` | `false` | Each thread takes the name of its region, `R#id dimension`, during its tick. Every log line then says which region wrote it. |
 
-The forced shutdown follows `max-tick-time` from `server.properties`, like vanilla. Past this delay on a region, Leafs writes a crash report with all threads and then kills the JVM. `-1` disables it, and in singleplayer there is no forced shutdown.
+The forced shutdown follows `max-tick-time` from `server.properties`, like in vanilla. Past this delay on a region, Leafs writes a crash report with all threads then kills the JVM. `-1` disables it, and in singleplayer there is no forced shutdown.
 
 ```json title="config/leafs.json"
 {
@@ -66,7 +64,3 @@ The forced shutdown follows `max-tick-time` from `server.properties`, like vanil
 :::note
 A value changed with `/leafs config` takes effect on the next startup.
 :::
-
-## In the code
-
-`LeafsConfig.register` reads the file, checks every range, and writes the defaults if it does not exist. `sectionShift()` is the logarithm of `section_size`, and `Regionizer` requires a shift between 1 and 8. `effectiveRegionThreads()` and `effectiveChunkThreads()` translate the `-1`. `ServerProperties` is the only point that touches `server.properties`, and it only does so on first startup.
