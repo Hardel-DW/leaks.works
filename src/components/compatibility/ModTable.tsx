@@ -4,7 +4,17 @@ import { useLocale } from "@/lib/store/locale";
 import { cn } from "@/lib/utils";
 
 function StatusDot({ status }: { status: Status }) {
-    return <span className={cn("size-2 shrink-0 rounded-full", status === "works" && "bg-leaf-400", status === "partial" && "bg-honey-400", status === "broken" && "bg-ember-400")} />;
+    return (
+        <span
+            className={cn(
+                "size-2 shrink-0 rounded-full",
+                status === "works" && "bg-leaf-400",
+                status === "partial" && "bg-honey-400",
+                status === "broken" && "bg-ember-400",
+                status === "untested" && "bg-bark-600"
+            )}
+        />
+    );
 }
 
 function Tooltip({ children }: { children: string }) {

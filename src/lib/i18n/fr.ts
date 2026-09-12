@@ -78,7 +78,7 @@ export const fr = {
         count: "mods",
         empty: "Aucun mod ne correspond.",
         columns: { mod: "Mod", status: "Statut" },
-        statuses: { works: "Fonctionne", partial: "Partiel", broken: "Incompatible" }
+        statuses: { works: "Fonctionne", partial: "Partiel", broken: "Incompatible", untested: "Non testé" }
     },
     notFound: {
         title: "Page introuvable",

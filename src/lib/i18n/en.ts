@@ -80,7 +80,7 @@ export const en: Text = {
         count: "mods",
         empty: "No mod matches.",
         columns: { mod: "Mod", status: "Status" },
-        statuses: { works: "Works", partial: "Partial", broken: "Incompatible" }
+        statuses: { works: "Works", partial: "Partial", broken: "Incompatible", untested: "Untested" }
     },
     notFound: {
         title: "Page not found",
