@@ -22,37 +22,11 @@ Leafs ne doit en aucun cas créer de bugs ou de problèmes dans un mod. Si c'est
 
 **Tous les mods client sont compatibles**, car Leafs tourne côté serveur.
 
+La liste des mods testés est sur la page [Compatibilité](/compatibility), avec une recherche.
+
 Les mods du tableau ont été testés, pas à 100 % car ils restent massifs pour certains. Leafs n'a fait aucune modification ni correctif spécifique pour eux, ils fonctionnent tels quels. Je n'ai pas encore eu le temps de tester davantage.
 
 Un mod qui est absent de cette liste n'est pas incompatible. Il est sûrement compatible, je n'ai juste pas eu le temps de tout tester. La liste s'allonge au fil du temps. Idéalement je voudrais tester tous les mods qui composent ATM 11 et un peu plus.
-
-| mod | statut |
-|---|---|
-| Applied Energistics 2, avec Advanced AE, Extended AE et ses autres addons | ✅ |
-| Apotheosis, avec Apothic Attributes, Apothic Enchanting et Apothic Spawners | ✅ |
-| AttributeFix | ✅ |
-| Chunk Loaders | ✅ |
-| Clumps | ✅ |
-| Construction Sticks | ✅ |
-| Copper Hopper | ✅ |
-| Easy Villagers | ✅ |
-| Ender IO | ✅ |
-| Entangled | ✅ |
-| Ex Deorum | ✅ |
-| Extended Crafting | ✅ |
-| Iron Furnaces | ✅ |
-| Iron Jetpacks | ✅ |
-| Item Collectors | ✅ |
-| Just Hammers | ✅ |
-| Mahou Tsukai | ✅ |
-| ModernFix | ✅ |
-| Modular Routers | ✅ |
-| Mystical Agriculture | ✅ |
-| Oritech | ✅ |
-| Pipez | ✅ |
-| Powah | ✅ |
-| Refined Storage | ✅ |
-| Trash Cans | ✅ |
 
 ## All The Mods 11
 

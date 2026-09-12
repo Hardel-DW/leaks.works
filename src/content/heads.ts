@@ -14,5 +14,6 @@ export const HEADS = {
     },
     doc: (doc: DocData): Head => ({ title: pageTitle(doc.title), description: doc.lead }),
     patchnote: { title: pageTitle(en.patchnote.title), description: en.patchnote.subtitle },
+    compatibility: { title: pageTitle(en.compatibility.title), description: en.compatibility.subtitle },
     notFound: { title: pageTitle(en.notFound.title), description: en.notFound.text }
 };

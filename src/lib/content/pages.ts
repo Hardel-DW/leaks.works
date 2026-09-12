@@ -25,7 +25,8 @@ function pagesOf(root: string): Page[] {
         { path: "/", head: HEADS.home },
         { path: "/docs", head: docs[FIRST_SLUG] },
         ...SLUGS.map((slug) => ({ path: `/docs/${slug}`, head: docs[slug] })),
-        { path: "/patchnote", head: HEADS.patchnote }
+        { path: "/patchnote", head: HEADS.patchnote },
+        { path: "/compatibility", head: HEADS.compatibility }
     ];
 }
 

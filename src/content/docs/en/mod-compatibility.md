@@ -22,37 +22,11 @@ Leafs must in no case create bugs or problems in a mod. If it does, it is a Leaf
 
 **Every client mod is compatible**, because Leafs runs server side.
 
+The list of tested mods is on the [Compatibility](/compatibility) page, with a search.
+
 The mods in the table were tested, not at 100 % because some of them remain massive. Leafs made no change or fix specific to them, they work as they are. I have not had the time to test further yet.
 
 A mod absent from this list is not incompatible. It is most likely compatible, I just have not had the time to test everything. The list grows over time. Ideally I would like to test every mod that makes up ATM 11 and a bit more.
-
-| mod | status |
-|---|---|
-| Applied Energistics 2, with Advanced AE, Extended AE and its other addons | ✅ |
-| Apotheosis, with Apothic Attributes, Apothic Enchanting and Apothic Spawners | ✅ |
-| AttributeFix | ✅ |
-| Chunk Loaders | ✅ |
-| Clumps | ✅ |
-| Construction Sticks | ✅ |
-| Copper Hopper | ✅ |
-| Easy Villagers | ✅ |
-| Ender IO | ✅ |
-| Entangled | ✅ |
-| Ex Deorum | ✅ |
-| Extended Crafting | ✅ |
-| Iron Furnaces | ✅ |
-| Iron Jetpacks | ✅ |
-| Item Collectors | ✅ |
-| Just Hammers | ✅ |
-| Mahou Tsukai | ✅ |
-| ModernFix | ✅ |
-| Modular Routers | ✅ |
-| Mystical Agriculture | ✅ |
-| Oritech | ✅ |
-| Pipez | ✅ |
-| Powah | ✅ |
-| Refined Storage | ✅ |
-| Trash Cans | ✅ |
 
 ## All The Mods 11
 

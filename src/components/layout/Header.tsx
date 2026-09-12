@@ -49,6 +49,7 @@ export default function Header() {
                 <nav className="hidden items-center sm:flex">
                     <NavLink to="/docs">{text.nav.docs}</NavLink>
                     <NavLink to="/patchnote">{text.nav.patchnote}</NavLink>
+                    <NavLink to="/compatibility">{text.nav.compatibility}</NavLink>
                 </nav>
                 <div className="ml-auto flex items-center gap-1">
                     <LocaleSwitch />
@@ -85,6 +86,7 @@ export default function Header() {
             <nav id="mobile-nav" popover="auto" onClick={closeOnLink} className="island fixed inset-x-4 top-16 m-0 w-auto flex-col gap-1 p-2 text-sm [&:popover-open]:flex sm:hidden">
                 <NavLink to="/docs">{text.nav.docs}</NavLink>
                 <NavLink to="/patchnote">{text.nav.patchnote}</NavLink>
+                <NavLink to="/compatibility">{text.nav.compatibility}</NavLink>
                 <a href={LINKS.modrinth} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-3 py-1.5 font-medium text-leaf-300">
                     <Icon name="modrinth" className="size-3.5" />
                     {text.nav.download}

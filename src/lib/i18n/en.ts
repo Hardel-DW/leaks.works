@@ -4,6 +4,7 @@ export const en: Text = {
     nav: {
         docs: "Docs",
         patchnote: "Patchnote",
+        compatibility: "Compatibility",
         download: "Download",
         menu: "Menu",
         language: "Language"
@@ -70,6 +71,16 @@ export const en: Text = {
     patchnote: {
         title: "Patchnote",
         subtitle: "What changes from one version to the next."
+    },
+    compatibility: {
+        title: "Mod compatibility",
+        subtitle: "The mods tested with Leafs, as they are, without any specific fix. A mod absent from the list is not incompatible, it just has not been tested yet.",
+        search: "Search a mod",
+        hint: "Client mods and datapacks are all compatible.",
+        count: "mods",
+        empty: "No mod matches.",
+        columns: { mod: "Mod", status: "Status" },
+        statuses: { works: "Works", partial: "Partial", broken: "Incompatible" }
     },
     notFound: {
         title: "Page not found",

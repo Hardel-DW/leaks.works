@@ -2,6 +2,7 @@ export const fr = {
     nav: {
         docs: "Docs",
         patchnote: "Patchnote",
+        compatibility: "Compatibilité",
         download: "Télécharger",
         menu: "Menu",
         language: "Langue"
@@ -68,6 +69,16 @@ export const fr = {
     patchnote: {
         title: "Patchnote",
         subtitle: "Ce qui change de version en version."
+    },
+    compatibility: {
+        title: "Compatibilité des mods",
+        subtitle: "Les mods testés avec Leafs, tels quels, sans correctif spécifique. Un mod absent de la liste n'est pas incompatible, il n'a juste pas encore été testé.",
+        search: "Chercher un mod",
+        hint: "Les mods client et les datapacks sont tous compatibles.",
+        count: "mods",
+        empty: "Aucun mod ne correspond.",
+        columns: { mod: "Mod", status: "Statut" },
+        statuses: { works: "Fonctionne", partial: "Partiel", broken: "Incompatible" }
     },
     notFound: {
         title: "Page introuvable",
