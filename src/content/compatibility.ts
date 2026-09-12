@@ -29,14 +29,7 @@ const TESTED: Mod[] = [
     works("Chunk Loaders"),
     works("Classic Pipes"),
     works("Clean Swing"),
-    {
-        name: "Clickable Advancements",
-        status: "broken",
-        note: {
-            fr: "Ensemble, le monde se lance mais tout reste figé.",
-            en: "Together, the world starts but everything stays frozen."
-        }
-    },
+    works("Clickable Advancements"),
     works("Cloth Config"),
     works("Clumps"),
     works("Cobblegen Galore"),
@@ -55,14 +48,7 @@ const TESTED: Mod[] = [
     works("Crystalix"),
     works("CTM"),
     works("Cucumber"),
-    {
-        name: "Cupboard",
-        status: "broken",
-        note: {
-            fr: "Ensemble, le monde se lance mais tout reste figé.",
-            en: "Together, the world starts but everything stays frozen."
-        }
-    },
+    works("Cupboard"),
     works("Curios API"),
     works("Cyclops Core"),
     works("Easy Piglins"),
@@ -98,14 +84,7 @@ const TESTED: Mod[] = [
     works("Item Collectors"),
     works("Just Enough Items"),
     works("Just Hammers"),
-    {
-        name: "LootR",
-        status: "partial",
-        note: {
-            fr: "Se charge et ne cause aucun souci en jeu, mais ne fonctionne pas : les coffres restent ceux de vanilla.",
-            en: "Loads and causes no issue in game, but does not work: chests stay the vanilla ones."
-        }
-    },
+    works("LootR"),
     works("Mahou Tsukai"),
     works("ModernFix"),
     works("Modonomicon"),
