@@ -6,7 +6,7 @@ export type Status = (typeof STATUSES)[number];
 export type Mod = { name: string; status: Status; note?: Record<Locale, string> };
 const works = (name: string): Mod => ({ name, status: "works" });
 
-export const MODS: Mod[] = [
+const LIST: Mod[] = [
     works("Advanced AE"),
     works("AE Infinity Booster"),
     works("AE2 Import Export Card"),
@@ -259,4 +259,7 @@ export const MODS: Mod[] = [
     works("Wits")
 ];
 
+const PRIORITY: Record<Status, number> = { broken: 0, partial: 1, works: 2, untested: 2 };
+const byPriority = (a: Mod, b: Mod): number => PRIORITY[a.status] - PRIORITY[b.status] || a.name.localeCompare(b.name, "en", { sensitivity: "base" });
+export const MODS: Mod[] = LIST.toSorted(byPriority);
 export const searchMods = (query: string): Mod[] => MODS.filter((mod) => slugify(mod.name).includes(slugify(query)));
